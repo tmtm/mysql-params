@@ -1699,7 +1699,7 @@ autocommit                                                   TRUE
 automatic-sp-privileges                                      TRUE
 avoid-temporal-upgrade                                       FALSE
 back-log                                                     80
-basedir                                                      /usr/local/mysql-5.7.18-linux-glibc2.5-x86_64/
+basedir                                                      /usr/local/mysql/
 big-tables                                                   FALSE
 bind-address                                                 *
 binlog-cache-size                                            32768
@@ -1722,7 +1722,7 @@ bulk-insert-buffer-size                                      8388608
 character-set-client-handshake                               TRUE
 character-set-filesystem                                     binary
 character-set-server                                         latin1
-character-sets-dir                                           /usr/local/mysql-5.7.18-linux-glibc2.5-x86_64/share/charsets/
+character-sets-dir                                           /usr/local/mysql/share/charsets/
 check-proxy-users                                            FALSE
 chroot                                                       (No default value)
 collation-server                                             latin1_swedish_ci
@@ -1731,7 +1731,7 @@ concurrent-insert                                            AUTO
 connect-timeout                                              10
 console                                                      FALSE
 daemonize                                                    FALSE
-datadir                                                      /usr/local/mysql-5.7.18-linux-glibc2.5-x86_64/data/
+datadir                                                      /usr/local/mysql/data/
 date-format                                                  %Y-%m-%d
 datetime-format                                              %Y-%m-%d %H:%i:%s
 default-authentication-plugin                                mysql_native_password
@@ -1767,7 +1767,7 @@ ft-query-expansion-limit                                     20
 ft-stopword-file                                             (No default value)
 gdb                                                          FALSE
 general-log                                                  FALSE
-general-log-file                                             /usr/local/mysql-5.7.18-linux-glibc2.5-x86_64/data/t460s.log
+general-log-file                                             /usr/local/mysql/data/hostname.log
 group-concat-max-len                                         1024
 gtid-executed-compression-period                             1000
 gtid-mode                                                    OFF
@@ -1919,10 +1919,10 @@ key-buffer-size                                              8388608
 key-cache-age-threshold                                      300
 key-cache-block-size                                         1024
 key-cache-division-limit                                     100
-language                                                     /usr/local/mysql-5.7.18-linux-glibc2.5-x86_64/share/
+language                                                     /usr/local/mysql/share/
 large-pages                                                  FALSE
 lc-messages                                                  en_US
-lc-messages-dir                                              /usr/local/mysql-5.7.18-linux-glibc2.5-x86_64/share/
+lc-messages-dir                                              /usr/local/mysql/share/
 lc-time-names                                                en_US
 local-infile                                                 TRUE
 lock-wait-timeout                                            31536000
@@ -2077,8 +2077,8 @@ performance-schema-session-connect-attrs-size                -1
 performance-schema-setup-actors-size                         -1
 performance-schema-setup-objects-size                        -1
 performance-schema-users-size                                -1
-pid-file                                                     /usr/local/mysql-5.7.18-linux-glibc2.5-x86_64/data/t460s.pid
-plugin-dir                                                   /usr/local/mysql-5.7.18-linux-glibc2.5-x86_64/lib/plugin/
+pid-file                                                     /usr/local/mysql/data/hostname.pid
+plugin-dir                                                   /usr/local/mysql/lib/plugin/
 port                                                         3306
 port-open-timeout                                            0
 preload-buffer-size                                          32768
@@ -2147,7 +2147,7 @@ slave-transaction-retries                                    10
 slave-type-conversions                                       
 slow-launch-time                                             2
 slow-query-log                                               FALSE
-slow-query-log-file                                          /usr/local/mysql-5.7.18-linux-glibc2.5-x86_64/data/t460s-slow.log
+slow-query-log-file                                          /usr/local/mysql/data/hostname-slow.log
 socket                                                       /tmp/mysql.sock
 sort-buffer-size                                             262144
 sporadic-binlog-dump-fail                                    FALSE

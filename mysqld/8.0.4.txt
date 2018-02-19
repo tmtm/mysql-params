@@ -1861,7 +1861,7 @@ ft-query-expansion-limit                                     20
 ft-stopword-file                                             (No default value)
 gdb                                                          FALSE
 general-log                                                  FALSE
-general-log-file                                             /usr/local/mysql-8.0.4-rc-linux-glibc2.12-x86_64/data/t460s.log
+general-log-file                                             /usr/local/mysql-8.0.4-rc-linux-glibc2.12-x86_64/data/hostname.log
 group-concat-max-len                                         1024
 gtid-executed-compression-period                             1000
 gtid-mode                                                    OFF
@@ -2180,7 +2180,7 @@ performance-schema-setup-actors-size                         -1
 performance-schema-setup-objects-size                        -1
 performance-schema-users-size                                -1
 persisted-globals-load                                       TRUE
-pid-file                                                     /usr/local/mysql-8.0.4-rc-linux-glibc2.12-x86_64/data/t460s.pid
+pid-file                                                     /usr/local/mysql-8.0.4-rc-linux-glibc2.12-x86_64/data/hostname.pid
 plugin-dir                                                   /usr/local/mysql-8.0.4-rc-linux-glibc2.12-x86_64/lib/plugin/
 port                                                         3306
 port-open-timeout                                            0
@@ -2195,8 +2195,8 @@ read-only                                                    FALSE
 read-rnd-buffer-size                                         262144
 regexp-stack-limit                                           8000000
 regexp-time-limit                                            32
-relay-log                                                    t460s-relay-bin
-relay-log-index                                              t460s-relay-bin.index
+relay-log                                                    hostname-relay-bin
+relay-log-index                                              hostname-relay-bin.index
 relay-log-info-file                                          relay-log.info
 relay-log-info-repository                                    TABLE
 relay-log-purge                                              TRUE
@@ -2249,7 +2249,7 @@ slave-transaction-retries                                    10
 slave-type-conversions                                       
 slow-launch-time                                             2
 slow-query-log                                               FALSE
-slow-query-log-file                                          /usr/local/mysql-8.0.4-rc-linux-glibc2.12-x86_64/data/t460s-slow.log
+slow-query-log-file                                          /usr/local/mysql-8.0.4-rc-linux-glibc2.12-x86_64/data/hostname-slow.log
 socket                                                       /tmp/mysql.sock
 sort-buffer-size                                             262144
 sporadic-binlog-dump-fail                                    FALSE
