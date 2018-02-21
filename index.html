@@ -1,0 +1,131 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <script src="vue.js"></script>
+        <script src="axios.min.js"></script>
+        <style>
+         table {
+             border-collapse: collapse;
+             border: solid 1px #808080;
+         }
+         tr.difference {
+             background-color: yellow;
+         }
+         tr.undisplay {
+             display: none;
+         }
+         tr.display {
+             display: table-row;
+         }
+         th {
+             border: solid 1px #808080;
+         }
+         td {
+             border: solid 1px #808080;
+         }
+         .parameter-name {
+             word-break: keep-all;
+         }
+         .parameter-value {
+             word-break: break-all;
+         }
+        </style>
+    </head>
+    <body>
+        <div id="app">
+            <select size="5" multiple="true" v-model="selected" v-on:change="hoge">
+                <option v-for="ver in vers">
+                    {{ ver }}
+                </option>
+            </select>
+            <label>
+                <input type="checkbox" v-model="only_difference">
+                Only difference
+            </label>
+            <table>
+                <thead>
+                    <tr>
+                        <th>
+                            Parameters
+                        </th>
+                        <th v-for="ver in selected_vers">
+                            {{ ver }}
+                        </th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr v-for="name in all_parameters" v-bind:class="row_class(name)">
+                        <td class="parameter-name">
+                            {{ name }}
+                        </td>
+                        <td v-for="ver in selected_vers" class="parameter-value">
+                            {{ parameters[ver][name] }}
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+    </body>
+    <script>
+     var app = new Vue({
+         el: '#app',
+         data: {
+             vers: [],
+             selected: [],
+             selected_vers: [],
+             all_parameters: [],
+             parameters: {},
+             difference: {},
+             only_difference: false,
+         },
+         methods: {
+             hoge: function(event){
+                 var vers = this.selected
+                 app.selected_vers = vers
+                 var all_params = []
+                 var prev = null
+                 var difference = {}
+                 vers.forEach(function(v){
+                     axios.get(`json/mysqld-${v}.json`)
+                          .then(function(response){
+                              var params = response.data
+                              app.parameters[v] = params
+                              Array.prototype.push.apply(all_params, Object.keys(params))
+                              all_params = Array.from(new Set(all_params)).sort()
+                              app.all_parameters = all_params
+                              if (prev) {
+                                  Object.keys(params).forEach(function(n){
+                                      if (prev[n] != params[n]) {
+                                          difference[n] = true
+                                      }
+                                  })
+                              } else {
+                                  prev = params
+                              }
+                              app.difference = difference
+                          })
+                 })
+             },
+             row_class: function(name){
+                 var klass = {}
+                 if (app.difference[name]) {
+                     klass.difference = true
+                 }
+                 if (app.only_difference) {
+                     var f = app.difference[name]
+                     klass.display = f
+                     klass.undisplay = !f
+                 } else {
+                     klass.display = true
+                     klass.undisplay = false
+                 }
+                 return klass
+             }
+         },
+     })
+     axios.get('json/mysqld.json')
+          .then(function(response){
+              app.vers = Object.keys(response.data).sort()
+          })
+    </script>
+</html>
