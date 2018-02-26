@@ -9,7 +9,8 @@ dir = Pathname(__dir__)+ '..'
   ver = txt.basename('.txt')
   vers[ver] = "json/mysqld-#{ver}.json"
   params = txt.read.split(/^-+ -+\n/).last.split(/^$/).first.lines.map do |line|
-    line.chomp.split(/ +/, 2)
+    name, value = line.chomp.split(/ +/, 2)
+    [name.gsub(/_/, '-'), value]
   end.to_h
   (dir + "json/mysqld-#{ver}.json").write params.to_json
 end
