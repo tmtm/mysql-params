@@ -9,9 +9,6 @@
              border-collapse: collapse;
              border: solid 1px #808080;
          }
-         tr.difference {
-             background-color: yellow;
-         }
          tr.undisplay {
              display: none;
          }
@@ -24,6 +21,9 @@
          td {
              border: solid 1px #808080;
          }
+         .difference {
+             background-color: yellow;
+         }
          .parameter-name {
              word-break: keep-all;
          }
@@ -34,8 +34,8 @@
     </head>
     <body>
         <div id="app">
-            <select size="5" multiple="true" v-model="selected" v-on:change="hoge">
-                <option v-for="ver in vers">
+            <select size="5" multiple="true" v-model="selected_vers" v-on:change="version_selected">
+                <option v-for="ver in all_vers">
                     {{ ver }}
                 </option>
             </select>
@@ -47,7 +47,7 @@
                 <thead>
                     <tr>
                         <th>
-                            Parameters
+                            Parameter
                         </th>
                         <th v-for="ver in selected_vers">
                             {{ ver }}
@@ -59,7 +59,7 @@
                         <td class="parameter-name">
                             {{ name }}
                         </td>
-                        <td v-for="ver in selected_vers" class="parameter-value">
+                        <td v-for="ver in selected_vers" v-bind:class="col_class(name, ver)">
                             {{ parameters[ver][name] }}
                         </td>
                     </tr>
@@ -71,49 +71,21 @@
      var app = new Vue({
          el: '#app',
          data: {
-             vers: [],
-             selected: [],
-             selected_vers: [],
-             all_parameters: [],
-             parameters: {},
-             difference: {},
-             only_difference: false,
+             all_vers: [],            // all available version
+             selected_vers: [],       // selected version
+             all_parameters: [],      // all parameter name for selected version
+             parameters: {},          // parameters[version][name] = value
+             difference: {},          // difference[name][version] = true if the parameter value is different from the previous version
+             only_difference: false,  // show only difference parameters
          },
          methods: {
-             hoge: function(event){
-                 var vers = this.selected
-                 app.selected_vers = vers
-                 var all_params = []
-                 var prev = null
-                 var difference = {}
-                 vers.forEach(function(v){
-                     axios.get(`json/mysqld-${v}.json`)
-                          .then(function(response){
-                              var params = response.data
-                              app.parameters[v] = params
-                              Array.prototype.push.apply(all_params, Object.keys(params))
-                              all_params = Array.from(new Set(all_params)).sort()
-                              app.all_parameters = all_params
-                              if (prev) {
-                                  Object.keys(params).forEach(function(n){
-                                      if (prev[n] != params[n]) {
-                                          difference[n] = true
-                                      }
-                                  })
-                              } else {
-                                  prev = params
-                              }
-                              app.difference = difference
-                          })
-                 })
+             version_selected: function(event) {
+                 get_version_params(this.selected_vers).then(function(){})
              },
-             row_class: function(name){
+             row_class: function(name) {
                  var klass = {}
-                 if (app.difference[name]) {
-                     klass.difference = true
-                 }
                  if (app.only_difference) {
-                     var f = app.difference[name]
+                     var f = !!app.difference[name]
                      klass.display = f
                      klass.undisplay = !f
                  } else {
@@ -121,12 +93,49 @@
                      klass.undisplay = false
                  }
                  return klass
-             }
-         },
+             },
+             col_class: function(name, ver) {
+                 return {"parameter-value": true, difference: app.difference[name] && app.difference[name][ver]}
+             },
+         }
      })
+
      axios.get('json/mysqld.json')
           .then(function(response){
-              app.vers = Object.keys(response.data).sort()
+              app.all_vers = Object.keys(response.data).sort()
           })
+
+     function get_params(ver) {
+         return axios.get(`json/mysqld-${ver}.json`)
+                     .then(function(response) {
+                         app.parameters[ver] = response.data
+                     })
+     }
+
+     async function get_version_params(vers) {
+         var all_params = []
+         var difference = {}
+         for (var i = 0; i < vers.length; i++) {
+             var ver = vers[i]
+             if (!app.parameters[ver]) {
+                 await get_params(ver)
+             }
+             var params = Object.keys(app.parameters[ver])
+             Array.prototype.push.apply(all_params, params)
+             all_params = Array.from(new Set(all_params))
+             if (i > 0) {
+                 all_params.forEach(function(name){
+                     if (app.parameters[vers[i-1]][name] != app.parameters[ver][name]) {
+                         if (!difference[name]) {
+                             difference[name] = {}
+                         }
+                         difference[name][ver] = true
+                     }
+                 })
+             }
+         }
+         app.all_parameters = Array.from(new Set(all_params)).sort()
+         app.difference = difference
+     }
     </script>
 </html>
