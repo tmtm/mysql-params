@@ -137,5 +137,17 @@
          app.all_parameters = Array.from(new Set(all_params)).sort()
          app.difference = difference
      }
+
+     window.onload = function() {
+         var match = window.location.search.match(/[?&]vers=([^?&]+)/)
+         if (match) {
+             var vers = match[1].split(',')
+             get_version_params(vers)
+             app.selected_vers = vers
+         }
+         if (window.location.search.match(/[?&]diff=true/)) {
+             app.only_difference = true
+         }
+     }
     </script>
 </html>
