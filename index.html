@@ -40,7 +40,7 @@
                 </option>
             </select>
             <label>
-                <input type="checkbox" v-model="only_difference">
+                <input type="checkbox" v-model="only_difference" v-on:change="change_diff">
                 Only difference
             </label>
             <table>
@@ -79,7 +79,11 @@
              },
              methods: {
                  version_selected: function(event) {
-                     get_version_params(this.selected_vers).then(function(){})
+                     get_version_params(this.selected_vers)
+                     set_url()
+                 },
+                 change_diff: function(event) {
+                     set_url()
                  },
                  row_class: function(name) {
                      var klass = {}
@@ -103,6 +107,18 @@
               .then(function(response){
                   app.all_vers = Object.keys(response.data).sort()
               })
+
+         function set_url() {
+             var qs = []
+             var vers = app.selected_vers.join(',')
+             if (vers) {
+                 qs.push('vers='+vers)
+             }
+             if (app.only_difference) {
+                 qs.push('diff=true')
+             }
+             window.history.pushState('', '', '?'+qs.join('&'))
+         }
 
          function get_params(ver) {
              return axios.get(`json/mysqld-${ver}.json`)
