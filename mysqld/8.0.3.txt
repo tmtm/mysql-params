@@ -1,5 +1,5 @@
-/usr/local/mysql-8.0.4-rc-linux-glibc2.12-x86_64/bin/mysqld  Ver 8.0.4-rc-log for linux-glibc2.12 on x86_64 (MySQL Community Server (GPL))
-Copyright (c) 2000, 2018, Oracle and/or its affiliates. All rights reserved.
+/usr/local/mysql-8.0.3-rc-linux-glibc2.12-x86_64/bin/mysqld  Ver 8.0.3-rc-log for linux-glibc2.12 on x86_64 (MySQL Community Server (GPL))
+Copyright (c) 2000, 2017, Oracle and/or its affiliates. All rights reserved.
 
 Oracle is a registered trademark of Oracle Corporation and/or its
 affiliates. Other names may be trademarks of their respective
@@ -7,7 +7,7 @@ owners.
 
 Starts the MySQL database server.
 
-Usage: /usr/local/mysql-8.0.4-rc-linux-glibc2.12-x86_64/bin/mysqld [OPTIONS]
+Usage: /usr/local/mysql-8.0.3-rc-linux-glibc2.12-x86_64/bin/mysqld [OPTIONS]
 
 Default options are read from the following files in the given order:
 /etc/my.cnf /etc/mysql/my.cnf /usr/local/mysql/etc/my.cnf ~/.my.cnf 
@@ -37,12 +37,6 @@ The following options may be given as the first argument:
                       will also set transaction isolation level 'serializable'.
   --archive[=name]    Enable or disable ARCHIVE plugin. Possible values are ON,
                       OFF, FORCE (don't start if the plugin fails to load).
-  --auto-generate-certs 
-                      Auto generate SSL certificates at server startup if --ssl
-                      is set to ON and none of the other SSL system variables
-                      are specified and certificate/key files are not present
-                      in data directory.
-                      (Defaults to on; use --skip-auto-generate-certs to disable.)
   --auto-increment-increment[=#] 
                       Auto-increment columns are incremented by this
   --auto-increment-offset[=#] 
@@ -93,8 +87,8 @@ The following options may be given as the first argument:
                       and let the master continue, or abort.
   --binlog-expire-logs-seconds=# 
                       If non-zero, binary logs will be purged after
-                      binlog_expire_logs_seconds seconds; given
-                      expire_logs_days is not set; possible purges happen at
+                      (binlog_expire_logs_seconds + 24 * 60 * 60 *
+                      expire_logs_days) seconds; possible purges happen at
                       startup and at binary log rotation
   --binlog-format=name 
                       What form of binary logging the master will use: either
@@ -198,11 +192,6 @@ The following options may be given as the first argument:
   --bulk-insert-buffer-size=# 
                       Size of tree cache used in bulk insert optimisation. Note
                       that this is a limit per thread!
-  --caching-sha2-password-auto-generate-rsa-keys 
-                      Auto generate RSA keys at server startup if correpsonding
-                      system variables are not specified and key files are not
-                      present at the default location.
-                      (Defaults to on; use --skip-caching-sha2-password-auto-generate-rsa-keys to disable.)
   --caching-sha2-password-private-key-path=name 
                       A fully qualified path to the private RSA key used for
                       authentication.
@@ -316,9 +305,10 @@ The following options may be given as the first argument:
   -T, --exit-info[=#] Used for debugging. Use at your own risk.
   --expire-logs-days=# 
                       If non-zero, binary logs will be purged after
-                      expire_logs_days days; given binlog_expire_logs_seconds
-                      is not set; possible purges happen at startup and at
-                      binary log rotation
+                      expire_logs_days days; or (binlog_expire_logs_seconds +
+                      24 * 60 * 60 * expire_logs_days) seconds if
+                      binlog_expire_logs_seconds has a non zero value; possible
+                      purges happen at startup and at binary log rotation
   --explicit-defaults-for-timestamp 
                       This option causes CREATE TABLE to create all TIMESTAMP
                       columns as NULL with DEFAULT NULL attribute, Without this
@@ -533,10 +523,6 @@ The following options may be given as the first argument:
                       without explicit ROW_FORMAT. Possible values are
                       REDUNDANT, COMPACT, and DYNAMIC. The ROW_FORMAT value
                       COMPRESSED is not allowed
-  --innodb-directories=name 
-                      List of directories 'dir1;dir2;..;dirN' to scan for
-                      tablespace files. Default is to scan
-                      'innodb-data-home-dir;innodb-undo-directory;datadir'
   --innodb-disable-sort-file-cache 
                       Whether to disable OS system file cache for sort I/O
   --innodb-doublewrite 
@@ -715,6 +701,8 @@ The following options may be given as the first argument:
                       Number of rollback segments per tablespace. This applies
                       to the system tablespace, the temporary tablespace & any
                       undo tablespace.
+  --innodb-scan-directories=name 
+                      List of directories to scan for missing tablespace files.
   --innodb-sort-buffer-size=# 
                       Memory buffer size for index creation
   --innodb-spin-wait-delay[=#] 
@@ -789,7 +777,7 @@ The following options may be given as the first argument:
                       Enable or Disable Truncate of UNDO tablespace.
                       (Defaults to on; use --skip-innodb-undo-log-truncate to disable.)
   --innodb-undo-tablespaces=# 
-                      Number of undo tablespaces to use. (deprecated)
+                      Number of undo tablespaces to use. 
   --innodb-use-native-aio 
                       Use native AIO if supported on this platform.
                       (Defaults to on; use --skip-innodb-use-native-aio to disable.)
@@ -823,26 +811,6 @@ The following options may be given as the first argument:
                       The default size of key cache blocks
   --key-cache-division-limit=# 
                       The minimum percentage of warm blocks in key cache
-  --keyring-migration-destination=name 
-                      Keyring plugin to which the keys are migrated to. This
-                      option must be specified along with
-                      --keyring-migration-source.
-  --keyring-migration-host=name 
-                      Connect to host.
-  -p, --keyring-migration-password[=name] 
-                      Password to use when connecting to server during keyring
-                      migration. If password value is not specified then it
-                      will be asked from the tty.
-  --keyring-migration-port=# 
-                      Port number to use for connection.
-  --keyring-migration-socket=name 
-                      The socket file to use for connection.
-  --keyring-migration-source=name 
-                      Keyring plugin from where the keys needs to be migrated
-                      to. This option must be specified along with
-                      --keyring-migration-destination.
-  --keyring-migration-user=name 
-                      User to login to server.
   -L, --language=name Client error messages in given language. May be given as
                       a full path. Deprecated. Use --lc-messages-dir instead.
   --large-pages       Enable support for large pages
@@ -856,14 +824,10 @@ The following options may be given as the first argument:
   --lock-wait-timeout=# 
                       Timeout in seconds to wait for a lock before returning an
                       error.
-  --log-bin[=name]    Configures the name prefix to use for binary log files.
-                      If the --log-bin option is not supplied, the name prefix
-                      defaults to "binlog". If the --log-bin option is supplied
-                      without argument, the name prefix defaults to
-                      "HOSTNAME-bin", where HOSTNAME is the machine's hostname.
-                      To set a different name prefix for binary log files, use
-                      --log-bin=name. To disable binary logging, use the
-                      --skip-log-bin or --disable-log-bin option.
+  --log-bin[=name]    Log update queries in binary format. Optional (but
+                      strongly recommended to avoid replication problems if
+                      server's hostname changes) argument should be the chosen
+                      location for the binary log files.
   --log-bin-index=name 
                       File that holds the names for binary log files.
   --log-bin-trust-function-creators 
@@ -885,6 +849,8 @@ The following options may be given as the first argument:
                       user statements in replication binlogs, general query
                       logs and audit logs.
   --log-error[=name]  Error log file
+  --log-error-filter-rules[=name] 
+                      Error log filter rules
   --log-error-services=name 
                       Services that should be called when an error event is
                       received
@@ -1098,8 +1064,6 @@ The following options may be given as the first argument:
   --ngram-token-size=# 
                       InnoDB ngram full text plugin parser token size in
                       characters
-  --no-dd-upgrade     Abort restart if automatic upgrade or downgrade of the
-                      data dictionary is needed.
   --offline-mode      Make the server into offline mode
   --old               Use compatible behavior
   --old-alter-table   Use old, non-optimized alter table
@@ -1398,11 +1362,6 @@ The following options may be given as the first argument:
   --read-rnd-buffer-size=# 
                       When reading rows in sorted order after a sort, the rows
                       are read through this buffer to avoid a disk seeks
-  --regexp-stack-limit=# 
-                      Stack size limit for regular expressions matches
-  --regexp-time-limit=# 
-                      Timeout for regular expressions matches, in steps of the
-                      match engine, typically on the order of milliseconds.
   --relay-log=name    The location and name to use for relay logs
   --relay-log-index=name 
                       File that holds the names for relay log files.
@@ -1535,14 +1494,6 @@ The following options may be given as the first argument:
                       characteristics (isolation level, read only/read write,
                       snapshot - but not any work done / data modified within
                       the transaction).
-  --sha256-password-auto-generate-rsa-keys 
-                      Auto generate RSA keys at server startup if correpsonding
-                      system variables are not specified and key files are not
-                      present at the default location.
-                      (Defaults to on; use --skip-sha256-password-auto-generate-rsa-keys to disable.)
-  --sha256-password-private-key-path=name 
-                      A fully qualified path to the private RSA key used for
-                      authentication
   --sha256-password-proxy-users 
                       If set to FALSE (the default), then the sha256_password
                       authentication plugin will not signal for authenticated
@@ -1550,9 +1501,6 @@ The following options may be given as the first argument:
                       to TRUE, the plugin will flag associated authenticated
                       accounts to be mapped to proxy users when the server
                       option check_proxy_users is enabled.
-  --sha256-password-public-key-path=name 
-                      A fully qualified path to the public RSA key used for
-                      authentication
   --show-old-temporals 
                       When this option is enabled, the pre-5.6.4 temporal types
                       will be marked in the 'SHOW CREATE TABLE' and
@@ -1781,14 +1729,13 @@ abort-slave-event-count                                      0
 activate-all-roles-on-login                                  FALSE
 allow-suspicious-udfs                                        FALSE
 archive                                                      ON
-auto-generate-certs                                          TRUE
 auto-increment-increment                                     1
 auto-increment-offset                                        1
 autocommit                                                   TRUE
 automatic-sp-privileges                                      TRUE
 avoid-temporal-upgrade                                       FALSE
 back-log                                                     151
-basedir                                                      /usr/local/mysql-8.0.4-rc-linux-glibc2.12-x86_64/
+basedir                                                      /usr/local/mysql-8.0.3-rc-linux-glibc2.12-x86_64/
 big-tables                                                   FALSE
 bind-address                                                 *
 binlog-cache-size                                            32768
@@ -1813,13 +1760,12 @@ binlog-transaction-dependency-tracking                       COMMIT_ORDER
 blackhole                                                    ON
 block-encryption-mode                                        aes-128-ecb
 bulk-insert-buffer-size                                      8388608
-caching-sha2-password-auto-generate-rsa-keys                 TRUE
 caching-sha2-password-private-key-path                       private_key.pem
 caching-sha2-password-public-key-path                        public_key.pem
 character-set-client-handshake                               TRUE
 character-set-filesystem                                     binary
 character-set-server                                         utf8mb4
-character-sets-dir                                           /usr/local/mysql-8.0.4-rc-linux-glibc2.12-x86_64/share/charsets/
+character-sets-dir                                           /usr/local/mysql-8.0.3-rc-linux-glibc2.12-x86_64/share/charsets/
 check-proxy-users                                            FALSE
 chroot                                                       (No default value)
 collation-server                                             utf8mb4_0900_ai_ci
@@ -1829,8 +1775,8 @@ connect-timeout                                              10
 console                                                      FALSE
 cte-max-recursion-depth                                      1000
 daemonize                                                    FALSE
-datadir                                                      /usr/local/mysql-8.0.4-rc-linux-glibc2.12-x86_64/data/
-default-authentication-plugin                                caching_sha2_password
+datadir                                                      /usr/local/mysql-8.0.3-rc-linux-glibc2.12-x86_64/data/
+default-authentication-plugin                                mysql_native_password
 default-password-lifetime                                    0
 default-storage-engine                                       InnoDB
 default-time-zone                                            (No default value)
@@ -1861,7 +1807,7 @@ ft-query-expansion-limit                                     20
 ft-stopword-file                                             (No default value)
 gdb                                                          FALSE
 general-log                                                  FALSE
-general-log-file                                             /usr/local/mysql-8.0.4-rc-linux-glibc2.12-x86_64/data/hostname.log
+general-log-file                                             /usr/local/mysql-8.0.3-rc-linux-glibc2.12-x86_64/data/hostname.log
 group-concat-max-len                                         1024
 gtid-executed-compression-period                             1000
 gtid-mode                                                    OFF
@@ -1910,7 +1856,6 @@ innodb-data-home-dir                                         (No default value)
 innodb-deadlock-detect                                       TRUE
 innodb-dedicated-server                                      FALSE
 innodb-default-row-format                                    dynamic
-innodb-directories                                           (No default value)
 innodb-disable-sort-file-cache                               FALSE
 innodb-doublewrite                                           TRUE
 innodb-fast-shutdown                                         1
@@ -1977,6 +1922,7 @@ innodb-redo-log-encrypt                                      FALSE
 innodb-replication-delay                                     0
 innodb-rollback-on-timeout                                   FALSE
 innodb-rollback-segments                                     128
+innodb-scan-directories                                      
 innodb-sort-buffer-size                                      1048576
 innodb-spin-wait-delay                                       6
 innodb-stats-auto-recalc                                     TRUE
@@ -2012,25 +1958,20 @@ key-buffer-size                                              8388608
 key-cache-age-threshold                                      300
 key-cache-block-size                                         1024
 key-cache-division-limit                                     100
-keyring-migration-destination                                (No default value)
-keyring-migration-host                                       (No default value)
-keyring-migration-port                                       0
-keyring-migration-socket                                     (No default value)
-keyring-migration-source                                     (No default value)
-keyring-migration-user                                       (No default value)
-language                                                     /usr/local/mysql-8.0.4-rc-linux-glibc2.12-x86_64/share/
+language                                                     /usr/local/mysql-8.0.3-rc-linux-glibc2.12-x86_64/share/
 large-pages                                                  FALSE
 lc-messages                                                  en_US
-lc-messages-dir                                              /usr/local/mysql-8.0.4-rc-linux-glibc2.12-x86_64/share/
+lc-messages-dir                                              /usr/local/mysql-8.0.3-rc-linux-glibc2.12-x86_64/share/
 lc-time-names                                                en_US
 local-infile                                                 FALSE
 lock-wait-timeout                                            31536000
-log-bin                                                      binlog
-log-bin-index                                                binlog.index
+log-bin                                                      hostname-bin
+log-bin-index                                                (No default value)
 log-bin-trust-function-creators                              FALSE
 log-bin-use-v1-row-events                                    FALSE
 log-builtin-as-identified-by-password                        FALSE
 log-error                                                    stderr
+log-error-filter-rules                                       prio>=3? gag. err_code==1408? set_priority 0. err_code==1408? add_field log_label:="HELO". +source_line? delete_field. +err_code? delete_field.
 log-error-services                                           log_filter_internal; log_sink_internal
 log-error-verbosity                                          1
 log-isam                                                     myisam.log
@@ -2052,7 +1993,7 @@ log-throttle-queries-not-using-indexes                       0
 log-timestamps                                               UTC
 long-query-time                                              10
 low-priority-updates                                         FALSE
-lower-case-table-names                                       0
+lower-case-table-names                                       2
 mandatory-roles                                              
 master-info-file                                             master.info
 master-info-repository                                       TABLE
@@ -2101,20 +2042,19 @@ net-write-timeout                                            60
 new                                                          FALSE
 ngram                                                        ON
 ngram-token-size                                             2
-no-dd-upgrade                                                FALSE
 offline-mode                                                 FALSE
 old                                                          FALSE
 old-alter-table                                              FALSE
 old-passwords                                                0
 old-style-user-limits                                        FALSE
-open-files-limit                                             8161
+open-files-limit                                             5000
 optimizer-prune-level                                        1
 optimizer-search-depth                                       62
 optimizer-switch                                             index_merge=on,index_merge_union=on,index_merge_sort_union=on,index_merge_intersection=on,engine_condition_pushdown=on,index_condition_pushdown=on,mrr=on,mrr_cost_based=on,block_nested_loop=on,batched_key_access=off,materialization=on,semijoin=on,loosescan=on,firstmatch=on,duplicateweedout=on,subquery_materialization_cost_based=on,use_index_extensions=on,condition_fanout_filter=on,derived_merge=on
 optimizer-trace                                              
 optimizer-trace-features                                     greedy_search=on,range_optimizer=on,dynamic_range=on,repeated_subselect=on
 optimizer-trace-limit                                        1
-optimizer-trace-max-mem-size                                 1048576
+optimizer-trace-max-mem-size                                 16384
 optimizer-trace-offset                                       -1
 parser-max-mem-size                                          18446744073709551615
 password-history                                             0
@@ -2137,7 +2077,7 @@ performance-schema-consumer-global-instrumentation           TRUE
 performance-schema-consumer-statements-digest                TRUE
 performance-schema-consumer-thread-instrumentation           TRUE
 performance-schema-digests-size                              -1
-performance-schema-error-size                                2476
+performance-schema-error-size                                2052
 performance-schema-events-stages-history-long-size           -1
 performance-schema-events-stages-history-size                -1
 performance-schema-events-statements-history-long-size       -1
@@ -2168,7 +2108,7 @@ performance-schema-max-socket-classes                        10
 performance-schema-max-socket-instances                      -1
 performance-schema-max-sql-text-length                       1024
 performance-schema-max-stage-classes                         150
-performance-schema-max-statement-classes                     212
+performance-schema-max-statement-classes                     209
 performance-schema-max-statement-stack                       10
 performance-schema-max-table-handles                         -1
 performance-schema-max-table-instances                       -1
@@ -2180,8 +2120,8 @@ performance-schema-setup-actors-size                         -1
 performance-schema-setup-objects-size                        -1
 performance-schema-users-size                                -1
 persisted-globals-load                                       TRUE
-pid-file                                                     /usr/local/mysql-8.0.4-rc-linux-glibc2.12-x86_64/data/hostname.pid
-plugin-dir                                                   /usr/local/mysql-8.0.4-rc-linux-glibc2.12-x86_64/lib/plugin/
+pid-file                                                     /usr/local/mysql-8.0.3-rc-linux-glibc2.12-x86_64/data/hostname.pid
+plugin-dir                                                   /usr/local/mysql-8.0.3-rc-linux-glibc2.12-x86_64/lib/plugin/
 port                                                         3306
 port-open-timeout                                            0
 preload-buffer-size                                          32768
@@ -2193,10 +2133,8 @@ range-optimizer-max-mem-size                                 8388608
 read-buffer-size                                             131072
 read-only                                                    FALSE
 read-rnd-buffer-size                                         262144
-regexp-stack-limit                                           8000000
-regexp-time-limit                                            32
-relay-log                                                    hostname-relay-bin
-relay-log-index                                              hostname-relay-bin.index
+relay-log                                                    (No default value)
+relay-log-index                                              (No default value)
 relay-log-info-file                                          relay-log.info
 relay-log-info-repository                                    TABLE
 relay-log-purge                                              TRUE
@@ -2219,10 +2157,7 @@ session-track-schema                                         TRUE
 session-track-state-change                                   FALSE
 session-track-system-variables                               time_zone,autocommit,character_set_client,character_set_results,character_set_connection
 session-track-transaction-info                               OFF
-sha256-password-auto-generate-rsa-keys                       TRUE
-sha256-password-private-key-path                             private_key.pem
 sha256-password-proxy-users                                  FALSE
-sha256-password-public-key-path                              public_key.pem
 show-old-temporals                                           FALSE
 show-slave-auth-info                                         FALSE
 skip-grant-tables                                            FALSE
@@ -2249,7 +2184,7 @@ slave-transaction-retries                                    10
 slave-type-conversions                                       
 slow-launch-time                                             2
 slow-query-log                                               FALSE
-slow-query-log-file                                          /usr/local/mysql-8.0.4-rc-linux-glibc2.12-x86_64/data/hostname-slow.log
+slow-query-log-file                                          /usr/local/mysql-8.0.3-rc-linux-glibc2.12-x86_64/data/hostname-slow.log
 socket                                                       /tmp/mysql.sock
 sort-buffer-size                                             262144
 sporadic-binlog-dump-fail                                    FALSE
@@ -2272,8 +2207,8 @@ sync-master-info                                             10000
 sync-relay-log                                               10000
 sync-relay-log-info                                          10000
 sysdate-is-now                                               FALSE
-table-definition-cache                                       2000
-table-open-cache                                             4000
+table-definition-cache                                       1400
+table-open-cache                                             2000
 table-open-cache-instances                                   16
 tablespace-definition-cache                                  256
 tc-heuristic-recover                                         OFF
@@ -2281,7 +2216,7 @@ temptable-max-ram                                            1073741824
 thread-cache-size                                            9
 thread-handling                                              one-thread-per-connection
 thread-stack                                                 286720
-tls-version                                                  TLSv1,TLSv1.1,TLSv1.2
+tls-version                                                  TLSv1,TLSv1.1
 tmp-table-size                                               16777216
 tmpdir                                                       /tmp
 transaction-alloc-block-size                                 8192
