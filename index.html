@@ -22,7 +22,10 @@
              border: solid 1px #808080;
          }
          .difference {
-             background-color: yellow;
+             background-color: #ffff00;
+         }
+         .unexist {
+             background-color: #a0a0a0;
          }
          .parameter-name {
              word-break: keep-all;
@@ -49,7 +52,7 @@
                         <th>
                             Parameter
                         </th>
-                        <th v-for="ver in selected_vers">
+                        <th v-for="ver in selected_vers2">
                             {{ ver }}
                         </th>
                     </tr>
@@ -59,7 +62,7 @@
                         <td class="parameter-name">
                             {{ name }}
                         </td>
-                        <td v-for="ver in selected_vers" v-bind:class="col_class(name, ver)">
+                        <td v-for="ver in selected_vers2" v-bind:class="col_class(name, ver)">
                             {{ parameters[ver][name] }}
                         </td>
                     </tr>
@@ -72,6 +75,7 @@
              data: {
                  all_vers: [],            // all available version
                  selected_vers: [],       // selected version
+                 selected_vers2: [],
                  all_parameters: [],      // all parameter name for selected version
                  parameters: {},          // parameters[version][name] = value
                  difference: {},          // difference[name][version] = true if the parameter value is different from the previous version
@@ -79,7 +83,9 @@
              },
              methods: {
                  version_selected: function(event) {
-                     get_version_params(this.selected_vers)
+                     get_version_params(app.selected_vers).then(function(){
+                         app.selected_vers2 = app.selected_vers
+                     })
                      set_url()
                  },
                  change_diff: function(event) {
@@ -98,7 +104,11 @@
                      return klass
                  },
                  col_class: function(name, ver) {
-                     return {"parameter-value": true, difference: app.difference[name] && app.difference[name][ver]}
+                     return {
+                         "parameter-value": true,
+                         difference: app.difference[name] && app.difference[name][ver],
+                         unexist: app.parameters[ver][name] == undefined,
+                     }
                  },
              }
          })
@@ -157,8 +167,8 @@
              var match = window.location.search.match(/[?&]vers=([^?&]+)/)
              if (match) {
                  var vers = match[1].split(',')
-                 get_version_params(vers)
                  app.selected_vers = vers
+                 get_version_params(vers).then(function(){app.selected_vers2 = vers})
              }
              if (window.location.search.match(/[?&]diff=true/)) {
                  app.only_difference = true
