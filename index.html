@@ -115,7 +115,7 @@
 
          axios.get('json/mysqld.json')
               .then(function(response){
-                  app.all_vers = Object.keys(response.data).sort()
+                  app.all_vers = Object.keys(response.data)
               })
 
          function set_url() {
