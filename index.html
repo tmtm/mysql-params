@@ -1,8 +1,10 @@
 <!DOCTYPE html>
 <html>
     <head>
+        <meta charset="utf-8">
         <title>MySQL Parameters</title>
         <script src="vue.js"></script>
+        <script src="vue-select.js"></script>
         <script src="axios.min.js"></script>
         <style>
          table {
@@ -33,15 +35,27 @@
          .parameter-value {
              word-break: break-all;
          }
+         #version {
+             display: inline-block;
+         }
         </style>
+        <script>
+         url_vers = []
+         url_diff = false
+         var match = window.location.search.match(/[?&]vers=([^?&]+)/)
+         if (match) {
+             var vers = match[1].split(',')
+             url_vers = vers
+         }
+         if (window.location.search.match(/[?&]diff=true/)) {
+             url_diff = true
+         }
+        </script>
     </head>
     <body>
         <div id="app">
-            <select size="5" multiple="true" v-model="selected_vers" v-on:change="version_selected">
-                <option v-for="ver in all_vers">
-                    {{ ver }}
-                </option>
-            </select>
+            Version:
+            <v-select id="version" v-model="selected_vers" :options="all_vers" multiple :on-change="version_selected"></v-select>
             <label>
                 <input type="checkbox" v-model="only_difference" v-on:change="change_diff">
                 Only difference
@@ -70,16 +84,17 @@
             </table>
         </div>
         <script>
+         Vue.component('v-select', VueSelect.VueSelect);
          var app = new Vue({
              el: '#app',
              data: {
-                 all_vers: [],            // all available version
-                 selected_vers: [],       // selected version
+                 all_vers: [],               // all available version
+                 selected_vers: url_vers,    // selected version
                  selected_vers2: [],
-                 all_parameters: [],      // all parameter name for selected version
-                 parameters: {},          // parameters[version][name] = value
-                 difference: {},          // difference[name][version] = true if the parameter value is different from the previous version
-                 only_difference: false,  // show only difference parameters
+                 all_parameters: [],         // all parameter name for selected version
+                 parameters: {},             // parameters[version][name] = value
+                 difference: {},             // difference[name][version] = true if the parameter value is different from the previous version
+                 only_difference: url_diff,  // show only difference parameters
              },
              methods: {
                  version_selected: function(event) {
@@ -161,18 +176,6 @@
              }
              app.all_parameters = Array.from(new Set(all_params)).sort()
              app.difference = difference
-         }
-
-         window.onload = function() {
-             var match = window.location.search.match(/[?&]vers=([^?&]+)/)
-             if (match) {
-                 var vers = match[1].split(',')
-                 app.selected_vers = vers
-                 get_version_params(vers).then(function(){app.selected_vers2 = vers})
-             }
-             if (window.location.search.match(/[?&]diff=true/)) {
-                 app.only_difference = true
-             }
          }
         </script>
     </body>

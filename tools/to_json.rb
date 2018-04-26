@@ -14,4 +14,4 @@ dir = Pathname(__dir__)+ '..'
   end.to_h
   (dir + "json/mysqld-#{ver}.json").write params.to_json
 end
-(dir + "json/mysqld.json").write vers.sort_by{|k, v| k.split('.').map(&:to_i) }.to_h.to_json
+(dir + "json/mysqld.json").write vers.sort_by{|k, v| k.split('.').map(&:to_i) }.reverse.to_h.to_json
