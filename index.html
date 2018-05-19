@@ -39,18 +39,6 @@
              display: inline-block;
          }
         </style>
-        <script>
-         url_vers = []
-         url_diff = false
-         var match = window.location.search.match(/[?&]vers=([^?&]+)/)
-         if (match) {
-             var vers = match[1].split(',')
-             url_vers = vers
-         }
-         if (window.location.search.match(/[?&]diff=true/)) {
-             url_diff = true
-         }
-        </script>
     </head>
     <body>
         <div id="app">
@@ -84,24 +72,25 @@
             </table>
         </div>
         <script>
+         var v = url_vers()
          Vue.component('v-select', VueSelect.VueSelect);
          var app = new Vue({
              el: '#app',
              data: {
                  all_vers: [],               // all available version
-                 selected_vers: url_vers,    // selected version
-                 selected_vers2: [],
+                 selected_vers: v.vers,      // selected version
+                 selected_vers2: [],         // versions for display
                  all_parameters: [],         // all parameter name for selected version
                  parameters: {},             // parameters[version][name] = value
                  difference: {},             // difference[name][version] = true if the parameter value is different from the previous version
-                 only_difference: url_diff,  // show only difference parameters
+                 only_difference: v.diff,    // show only difference parameters
              },
              methods: {
                  version_selected: function(event) {
                      get_version_params(app.selected_vers).then(function(){
-                         app.selected_vers2 = app.selected_vers
+                         app.selected_vers2 = app.selected_vers.concat() // dup
+                         set_url()
                      })
-                     set_url()
                  },
                  change_diff: function(event) {
                      set_url()
@@ -122,28 +111,16 @@
                      return {
                          "parameter-value": true,
                          difference: app.difference[name] && app.difference[name][ver],
-                         unexist: app.parameters[ver][name] == undefined,
+                         unexist: app.parameters[ver] && app.parameters[ver][name] == undefined,
                      }
                  },
-             }
+             },
          })
 
          axios.get('json/mysqld.json')
               .then(function(response){
                   app.all_vers = Object.keys(response.data)
               })
-
-         function set_url() {
-             var qs = []
-             var vers = app.selected_vers.join(',')
-             if (vers) {
-                 qs.push('vers='+vers)
-             }
-             if (app.only_difference) {
-                 qs.push('diff=true')
-             }
-             window.history.pushState('', '', '?'+qs.join('&'))
-         }
 
          function get_params(ver) {
              return axios.get(`json/mysqld-${ver}.json`)
@@ -155,27 +132,61 @@
          async function get_version_params(vers) {
              var all_params = []
              var difference = {}
-             for (var i = 0; i < vers.length; i++) {
-                 var ver = vers[i]
+             for (var ver of vers) {
                  if (!app.parameters[ver]) {
                      await get_params(ver)
                  }
-                 var params = Object.keys(app.parameters[ver])
-                 Array.prototype.push.apply(all_params, params)
-                 all_params = Array.from(new Set(all_params))
-                 if (i > 0) {
-                     all_params.forEach(function(name){
-                         if (app.parameters[vers[i-1]][name] != app.parameters[ver][name]) {
-                             if (!difference[name]) {
-                                 difference[name] = {}
-                             }
-                             difference[name][ver] = true
+                 all_params = all_params.concat(Object.keys(app.parameters[ver]))
+             }
+             all_params = Array.from(new Set(all_params)).sort() // unique & sort
+             for (var i = 1; i < vers.length; i++) {
+                 var ver = vers[i]
+                 for (var name of all_params) {
+                     if (app.parameters[vers[i-1]][name] != app.parameters[ver][name]) {
+                         if (!difference[name]) {
+                             difference[name] = {}
                          }
-                     })
+                         difference[name][ver] = true
+                     }
                  }
              }
-             app.all_parameters = Array.from(new Set(all_params)).sort()
+             app.all_parameters = all_params
              app.difference = difference
+         }
+
+         function set_url() {
+             var vers = app.selected_vers.join(',')
+             var diff = app.only_difference
+             var v = url_vers()
+             if (vers == v.vers.toString() && diff == v.diff) {
+                 return
+             }
+             var qs = []
+             if (vers) {
+                 qs.push('vers='+vers)
+             }
+             if (app.only_difference) {
+                 qs.push('diff=true')
+             }
+             window.history.pushState('', '', '?'+qs.join('&'))
+         }
+
+         function url_vers() {
+             var match = window.location.search.match(/[?&]vers=([^?&]+)/)
+             var v = {vers: [], diff: false}
+             if (match) {
+                 v.vers = match[1].split(',')
+             }
+             if (window.location.search.match(/[?&]diff=true/)) {
+                 v.diff = true
+             }
+             return v
+         }
+
+         window.onpopstate = function(event) {
+             obj = url_vers()
+             app.selected_vers = obj.vers
+             app.only_difference = obj.diff
          }
         </script>
     </body>
