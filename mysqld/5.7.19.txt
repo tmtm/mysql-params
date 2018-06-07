@@ -1,4 +1,4 @@
-/usr/local/mysql-5.7.19-linux-glibc2.12-x86_64/bin/mysqld  Ver 5.7.19 for linux-glibc2.12 on x86_64 (MySQL Community Server (GPL))
+/usr/local/mysql/bin/mysqld  Ver 5.7.19 for linux-glibc2.12 on x86_64 (MySQL Community Server (GPL))
 Copyright (c) 2000, 2017, Oracle and/or its affiliates. All rights reserved.
 
 Oracle is a registered trademark of Oracle Corporation and/or its
@@ -7,7 +7,7 @@ owners.
 
 Starts the MySQL database server.
 
-Usage: /usr/local/mysql-5.7.19-linux-glibc2.12-x86_64/bin/mysqld [OPTIONS]
+Usage: /usr/local/mysql/bin/mysqld [OPTIONS]
 
 Default options are read from the following files in the given order:
 /etc/my.cnf /etc/mysql/my.cnf /usr/local/mysql/etc/my.cnf ~/.my.cnf 

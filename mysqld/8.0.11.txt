@@ -1,4 +1,4 @@
-/usr/local/mysql-8.0.11-linux-glibc2.12-x86_64/bin/mysqld  Ver 8.0.11 for linux-glibc2.12 on x86_64 (MySQL Community Server - GPL)
+/usr/local/mysql/bin/mysqld  Ver 8.0.11 for linux-glibc2.12 on x86_64 (MySQL Community Server - GPL)
 Copyright (c) 2000, 2018, Oracle and/or its affiliates. All rights reserved.
 
 Oracle is a registered trademark of Oracle Corporation and/or its
@@ -7,7 +7,7 @@ owners.
 
 Starts the MySQL database server.
 
-Usage: /usr/local/mysql-8.0.11-linux-glibc2.12-x86_64/bin/mysqld [OPTIONS]
+Usage: /usr/local/mysql/bin/mysqld [OPTIONS]
 
 Default options are read from the following files in the given order:
 /etc/my.cnf /etc/mysql/my.cnf /usr/local/mysql/etc/my.cnf ~/.my.cnf 
@@ -1928,7 +1928,7 @@ autocommit                                                   TRUE
 automatic-sp-privileges                                      TRUE
 avoid-temporal-upgrade                                       FALSE
 back-log                                                     151
-basedir                                                      /usr/local/mysql-8.0.11-linux-glibc2.12-x86_64/
+basedir                                                      /usr/local/mysql/
 big-tables                                                   FALSE
 bind-address                                                 *
 binlog-cache-size                                            32768
@@ -1959,7 +1959,7 @@ caching-sha2-password-public-key-path                        public_key.pem
 character-set-client-handshake                               TRUE
 character-set-filesystem                                     binary
 character-set-server                                         utf8mb4
-character-sets-dir                                           /usr/local/mysql-8.0.11-linux-glibc2.12-x86_64/share/charsets/
+character-sets-dir                                           /usr/local/mysql/share/charsets/
 check-proxy-users                                            FALSE
 chroot                                                       (No default value)
 collation-server                                             utf8mb4_0900_ai_ci
@@ -1969,7 +1969,7 @@ connect-timeout                                              10
 console                                                      FALSE
 cte-max-recursion-depth                                      1000
 daemonize                                                    FALSE
-datadir                                                      /usr/local/mysql-8.0.11-linux-glibc2.12-x86_64/data/
+datadir                                                      /usr/local/mysql/data/
 default-authentication-plugin                                caching_sha2_password
 default-password-lifetime                                    0
 default-storage-engine                                       InnoDB
@@ -2001,7 +2001,7 @@ ft-query-expansion-limit                                     20
 ft-stopword-file                                             (No default value)
 gdb                                                          FALSE
 general-log                                                  FALSE
-general-log-file                                             /usr/local/mysql-8.0.11-linux-glibc2.12-x86_64/data/hostname.log
+general-log-file                                             /usr/local/mysql/data/hostname.log
 group-concat-max-len                                         1024
 gtid-executed-compression-period                             1000
 gtid-mode                                                    OFF
@@ -2181,10 +2181,10 @@ keyring-migration-port                                       0
 keyring-migration-socket                                     (No default value)
 keyring-migration-source                                     (No default value)
 keyring-migration-user                                       (No default value)
-language                                                     /usr/local/mysql-8.0.11-linux-glibc2.12-x86_64/share/
+language                                                     /usr/local/mysql/share/
 large-pages                                                  FALSE
 lc-messages                                                  en_US
-lc-messages-dir                                              /usr/local/mysql-8.0.11-linux-glibc2.12-x86_64/share/
+lc-messages-dir                                              /usr/local/mysql/share/
 lc-time-names                                                en_US
 local-infile                                                 FALSE
 lock-wait-timeout                                            31536000
@@ -2364,8 +2364,8 @@ performance-schema-setup-actors-size                         -1
 performance-schema-setup-objects-size                        -1
 performance-schema-users-size                                -1
 persisted-globals-load                                       TRUE
-pid-file                                                     /usr/local/mysql-8.0.11-linux-glibc2.12-x86_64/data/hostname.pid
-plugin-dir                                                   /usr/local/mysql-8.0.11-linux-glibc2.12-x86_64/lib/plugin/
+pid-file                                                     /usr/local/mysql/data/hostname.pid
+plugin-dir                                                   /usr/local/mysql/lib/plugin/
 port                                                         3306
 port-open-timeout                                            0
 preload-buffer-size                                          32768
@@ -2435,7 +2435,7 @@ slave-transaction-retries                                    10
 slave-type-conversions                                       
 slow-launch-time                                             2
 slow-query-log                                               FALSE
-slow-query-log-file                                          /usr/local/mysql-8.0.11-linux-glibc2.12-x86_64/data/hostname-slow.log
+slow-query-log-file                                          /usr/local/mysql/data/hostname-slow.log
 socket                                                       /tmp/mysql.sock
 sort-buffer-size                                             262144
 sporadic-binlog-dump-fail                                    FALSE
