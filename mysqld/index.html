@@ -3,9 +3,9 @@
     <head>
         <meta charset="utf-8">
         <title>MySQL Parameters</title>
-        <script src="vue.js"></script>
-        <script src="vue-select.js"></script>
-        <script src="axios.min.js"></script>
+        <script src="../js/vue.js"></script>
+        <script src="../js/vue-select.js"></script>
+        <script src="../js/axios.min.js"></script>
         <style>
          table {
              border-collapse: collapse;
@@ -121,13 +121,13 @@
              },
          })
 
-         axios.get('json/mysqld.json')
+         axios.get('../json/mysqld.json')
               .then(function(response){
                   app.all_vers = Object.keys(response.data)
               })
 
          function get_params(ver) {
-             return axios.get(`json/mysqld-${ver}.json`)
+             return axios.get(`../json/mysqld-${ver}.json`)
                          .then(function(response) {
                              app.parameters[ver] = response.data
                          })
