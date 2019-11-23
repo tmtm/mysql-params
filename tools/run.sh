@@ -17,4 +17,5 @@ for tar in "$@"; do
     fi
     chown -R mysql. /usr/local/mysql
     /usr/local/mysql/bin/mysqld --no-defaults --help -v > $CURDIR/mysqld/data/$ver.txt || true
+    /usr/local/mysql/bin/mysql --no-defaults --help -v > $CURDIR/mysql/data/$ver.txt || true
 done
