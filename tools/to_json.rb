@@ -29,7 +29,7 @@ end
     vers[ver] = "json/#{ver}.json"
     params = txt.read.lines[1..-1].map do |line|
       param = line.split.first
-      [param, param]
+      [param, "○"]
     end.to_h
     (dir + "json/#{ver}.json").write params.to_json
   end
