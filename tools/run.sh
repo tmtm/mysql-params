@@ -2,7 +2,7 @@
 set -e
 
 CURDIR=$(pwd)
-mkdir -p $CURDIR/{mysqld,mysql,charset,collation,status}/data
+mkdir -p $CURDIR/{mysqld,mysql,charset,collation,status,privilege}/data
 for tar in "$@"; do
     echo "[[[[ $tar ]]]]"
     m=$(tar tf $tar | head -1 | cut -d/ -f1)
@@ -27,8 +27,10 @@ for tar in "$@"; do
         sleep 1
     done
     bin/mysql --no-defaults -e 'SHOW CHARSET' > $CURDIR/charset/data/$ver.txt
-    bin/mysql --no-defaults  -e 'SHOW COLLATION' > $CURDIR/collation/data/$ver.txt
-    bin/mysql --no-defaults  -e 'SHOW GLOBAL STATUS' | awk '{print $1}' > $CURDIR/status/data/$ver.txt
+    bin/mysql --no-defaults -e 'SHOW COLLATION' > $CURDIR/collation/data/$ver.txt
+    bin/mysql --no-defaults -e 'SHOW GLOBAL STATUS' | awk '{print $1}' > $CURDIR/status/data/$ver.txt
+    bin/mysql --no-defaults -e 'DESC mysql.user' > $CURDIR/privilege/data/$ver.txt
+    bin/mysql --no-defaults -e 'DESC mysql.proxies_priv' >> $CURDIR/privilege/data/$ver.txt || true
     kill $pid
     while ps -p $pid; do
         sleep 1
