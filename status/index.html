@@ -38,13 +38,34 @@
          #version {
              display: inline-block;
          }
+         ul.menu {
+             padding: 0;
+             font-size: 130%;
+         }
+         ul.menu li {
+             display: inline-block;
+         }
+         ul.menu a {
+             margin: 0 5px 0 5px;
+         }
+         ul.menu a.current {
+             font-weight: bold;
+             text-decoration: none;
+         }
         </style>
         <script data-ad-client="ca-pub-1645169699718177" async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
     </head>
     <body>
         <h1><a href="../">MySQL Parameters</a></h1>
-        <h2>status</h2>
         <div id="app">
+            <ul class="menu">
+                <li><a v-bind:href="'../mysqld/'+qs">mysqld</a></li>
+                <li><a v-bind:href="'../mysql/'+qs">mysql</a></li>
+                <li><a v-bind:href="'../status/'+qs" class="current">status</a></li>
+                <li><a v-bind:href="'../charset/'+qs">charset</a></li>
+                <li><a v-bind:href="'../collation/'+qs">collation</a></li>
+                <li><a v-bind:href="'../privilege/'+qs">privilege</a></li>
+            </ul>
             Version:
             <v-select id="version" v-model="selected_vers" :options="all_vers" multiple :on-change="version_selected"></v-select>
             <label>
@@ -87,6 +108,7 @@
                  parameters: {},             // parameters[version][name] = value
                  difference: {},             // difference[name][version] = true if the parameter value is different from the previous version
                  only_difference: v.diff,    // show only difference parameters
+                 qs: location.search,        // query string
              },
              methods: {
                  version_selected: function(event) {
@@ -171,6 +193,7 @@
              if (app.only_difference) {
                  qs.push('diff=true')
              }
+             app.qs = '?'+qs.join('&')
              window.history.pushState('', '', '?'+qs.join('&'))
          }
 
