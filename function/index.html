@@ -2,7 +2,7 @@
 <html>
     <head>
         <meta charset="utf-8">
-        <title>collation / MySQL Parameters</title>
+        <title>mysqld / MySQL Parameters</title>
         <script src="../js/vue.js"></script>
         <script src="../js/vue-select.js"></script>
         <script src="../js/axios.min.js"></script>
@@ -63,10 +63,13 @@
                 <li><a v-bind:href="'../mysql/'+qs">mysql</a></li>
                 <li><a v-bind:href="'../status/'+qs">status</a></li>
                 <li><a v-bind:href="'../charset/'+qs">charset</a></li>
-                <li><a v-bind:href="'../collation/'+qs" class="current">collation</a></li>
+                <li><a v-bind:href="'../collation/'+qs">collation</a></li>
                 <li><a v-bind:href="'../privilege/'+qs">privilege</a></li>
-                <li><a v-bind:href="'../function/'+qs">function</a></li>
+                <li><a v-bind:href="'../function/'+qs" class="current">function</a></li>
             </ul>
+            <p>
+                OS: Ubuntu 19.10
+            </p>
             Version:
             <v-select id="version" v-model="selected_vers" :options="all_vers" multiple :on-change="version_selected"></v-select>
             <label>
