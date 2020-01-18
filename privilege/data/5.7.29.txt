@@ -52,3 +52,5 @@ Proxied_user	char(32)	NO	PRI
 With_grant	tinyint(1)	NO		0	
 Grantor	char(93)	NO	MUL		
 Timestamp	timestamp	NO		CURRENT_TIMESTAMP	on update CURRENT_TIMESTAMP
+Grants for test@%
+GRANT ALL PRIVILEGES ON *.* TO 'test'@'%' WITH GRANT OPTION

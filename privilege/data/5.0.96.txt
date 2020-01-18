@@ -36,3 +36,5 @@ max_questions	int(11) unsigned	NO		0
 max_updates	int(11) unsigned	NO		0	
 max_connections	int(11) unsigned	NO		0	
 max_user_connections	int(11) unsigned	NO		0	
+Grants for test@%
+GRANT ALL PRIVILEGES ON *.* TO 'test'@'%' WITH GRANT OPTION
