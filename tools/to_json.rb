@@ -68,6 +68,14 @@ end
       end
       [param, "○"]
     end.compact.to_h
+    txt.read.each_line do |line|
+      if line =~ /GRANT (.*) ON .* WITH (GRANT OPTION)/
+        [$1, $2].join(',').split(/, */).each do |param|
+          params[param] = '○'
+        end
+      end
+    end
+    params.delete('ALL PRIVILEGES')
     (dir + "json/#{ver}.json").write params.to_json
   end
   (dir + "json/version.json").write vers.sort_by{|k, v| k.split('.').map(&:to_i) }.reverse.to_h.to_json

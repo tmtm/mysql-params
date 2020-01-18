@@ -26,11 +26,27 @@ for tar in "$@"; do
     while [ ! -e /tmp/mysql.sock ]; do
         sleep 1
     done
+    bin/mysql --no-defaults -e "UPDATE mysql.user SET authentication_string='', password_expired='N' WHERE user='root' AND host='localhost'" || true
+    kill $pid
+    while [ -e /tmp/mysql.sock ]; do
+        sleep 1
+    done
+    while :; do
+        bin/mysqld --no-defaults -umysql &
+        pid=$!
+        while kill -0 $pid && [ ! -e /tmp/mysql.sock ]; do
+            sleep 1
+        done
+        if kill -0 $pid; then
+           break
+        fi
+    done
     bin/mysql --no-defaults -e 'SHOW CHARSET' > $CURDIR/charset/data/$ver.txt
     bin/mysql --no-defaults -e 'SHOW COLLATION' > $CURDIR/collation/data/$ver.txt
     bin/mysql --no-defaults -e 'SHOW GLOBAL STATUS' | awk '{print $1}' > $CURDIR/status/data/$ver.txt
     bin/mysql --no-defaults -e 'DESC mysql.user' > $CURDIR/privilege/data/$ver.txt
     bin/mysql --no-defaults -e 'DESC mysql.proxies_priv' >> $CURDIR/privilege/data/$ver.txt || true
+    bin/mysql --no-defaults -e 'CREATE USER test; GRANT ALL ON *.* TO test WITH GRANT OPTION; SHOW GRANTS FOR test' >> $CURDIR/privilege/data/$ver.txt
     kill $pid
     while ps -p $pid; do
         sleep 1
