@@ -2,7 +2,7 @@
 <html>
     <head>
         <meta charset="utf-8">
-        <title>mysqld / MySQL Parameters</title>
+        <title>information_schema / MySQL Parameters</title>
         <script src="../js/vue.js"></script>
         <script src="../js/vue-select.js"></script>
         <script src="../js/axios.min.js"></script>
@@ -59,18 +59,15 @@
         <h1><a href="../">MySQL Parameters</a></h1>
         <div id="app">
             <ul class="menu">
-                <li><a v-bind:href="'../mysqld/'+qs" class="current">mysqld</a></li>
+                <li><a v-bind:href="'../mysqld/'+qs">mysqld</a></li>
                 <li><a v-bind:href="'../mysql/'+qs">mysql</a></li>
                 <li><a v-bind:href="'../status/'+qs">status</a></li>
                 <li><a v-bind:href="'../charset/'+qs">charset</a></li>
                 <li><a v-bind:href="'../collation/'+qs">collation</a></li>
                 <li><a v-bind:href="'../privilege/'+qs">privilege</a></li>
                 <li><a v-bind:href="'../function/'+qs">function</a></li>
-                <li><a v-bind:href="'../ischema/'+qs">information_schema</a></li>
+                <li><a v-bind:href="'../ischema/'+qs" class="current">information_schema</a></li>
             </ul>
-            <p>
-                OS: Ubuntu 19.10
-            </p>
             Version:
             <v-select id="version" v-model="selected_vers" :options="all_vers" multiple :on-change="version_selected"></v-select>
             <label>

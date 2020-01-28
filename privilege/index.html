@@ -66,6 +66,7 @@
                 <li><a v-bind:href="'../collation/'+qs">collation</a></li>
                 <li><a v-bind:href="'../privilege/'+qs" class="current">privilege</a></li>
                 <li><a v-bind:href="'../function/'+qs">function</a></li>
+                <li><a v-bind:href="'../ischema/'+qs">information_schema</a></li>
             </ul>
             Version:
             <v-select id="version" v-model="selected_vers" :options="all_vers" multiple :on-change="version_selected"></v-select>

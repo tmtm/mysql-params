@@ -57,6 +57,7 @@ for tar in "$@"; do
     bin/mysql --no-defaults -e 'CREATE USER test; GRANT ALL ON *.* TO test WITH GRANT OPTION; SHOW GRANTS FOR test' >> $CURDIR/privilege/data/$ver.txt
     : > $CURDIR/function/data/$ver.txt
     func functions
+    bin/mysql --no-defaults -N information_schema -e "SELECT TABLE_NAME,COLUMN_NAME FROM COLUMNS WHERE TABLE_SCHEMA='information_schema'" > $CURDIR/ischema/data/$ver.txt
     kill $pid
     while ps -p $pid; do
         sleep 1
