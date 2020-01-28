@@ -58,6 +58,7 @@ for tar in "$@"; do
     : > $CURDIR/function/data/$ver.txt
     func functions
     bin/mysql --no-defaults -N information_schema -e "SELECT TABLE_NAME,COLUMN_NAME FROM COLUMNS WHERE TABLE_SCHEMA='information_schema'" > $CURDIR/ischema/data/$ver.txt
+    bin/mysql --no-defaults -N information_schema -e "SELECT TABLE_NAME,COLUMN_NAME FROM COLUMNS WHERE TABLE_SCHEMA='performance_schema'" > $CURDIR/pschema/data/$ver.txt || true
     kill $pid
     while ps -p $pid; do
         sleep 1

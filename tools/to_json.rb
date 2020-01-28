@@ -1,4 +1,5 @@
 #!/usr/bin/env ruby
+# coding: utf-8
 
 require 'fileutils'
 require 'pathname'
@@ -97,7 +98,7 @@ end
   (dir + "json/version.json").write vers.sort_by{|k, v| k.split('.').map(&:to_i) }.reverse.to_h.to_json
 end
 
-['ischema'].each do |name|
+['ischema', 'pschema'].each do |name|
   vers = {}
   dir = Pathname(__dir__)+'..'+name
   FileUtils.mkdir_p(dir + 'json')

@@ -67,6 +67,7 @@
                 <li><a v-bind:href="'../privilege/'+qs">privilege</a></li>
                 <li><a v-bind:href="'../function/'+qs">function</a></li>
                 <li><a v-bind:href="'../ischema/'+qs" class="current">information_schema</a></li>
+                <li><a v-bind:href="'../pschema/'+qs">performance_schema</a></li>
             </ul>
             Version:
             <v-select id="version" v-model="selected_vers" :options="all_vers" multiple :on-change="version_selected"></v-select>
