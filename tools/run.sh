@@ -26,7 +26,7 @@ for tar in "$@"; do
         bin/mysqld --no-defaults --initialize
     fi
     chown -R mysql. .
-    /usr/local/mysql/bin/mysqld --no-defaults --help -v > $CURDIR/mysqld/data/$ver.txt || true
+    /usr/local/mysql/bin/mysqld --no-defaults -u mysql --help -v > $CURDIR/mysqld/data/$ver.txt || true
     sed -i -e "s/$(hostname)/hostname/g" $CURDIR/mysqld/data/$ver.txt
     /usr/local/mysql/bin/mysql --no-defaults --help -v > $CURDIR/mysql/data/$ver.txt || true
     /usr/local/mysql/bin/mysqld --no-defaults -umysql --skip-grant-tables &
