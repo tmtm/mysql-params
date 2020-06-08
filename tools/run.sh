@@ -94,7 +94,7 @@ p_pschema() {
 p_error() {
     : > $CURDIR/error/data/$ver.txt
     grep '^#define ER_' include/mysqld_error.h | grep -Eo ' [0-9]+$' | while read e; do
-        bin/perror $e 2> /dev/null | tr '\n' ' ' >> $CURDIR/error/data/$ver.txt 2> /dev/null || true
+        bin/perror $e 2> /dev/null | tr '\n' '\r' | sed -e 's/\r$/\n' -e 's/\r/\\n/' >> $CURDIR/error/data/$ver.txt 2> /dev/null || true
     done
 }
 
