@@ -75,16 +75,11 @@ MySQL error code 1072 (ER_KEY_COLUMN_DOES_NOT_EXITS): Key column '%-.192s' doesn
 MySQL error code 1073 (ER_BLOB_USED_AS_KEY): BLOB column '%-.192s' can't be used in key specification with the used table type
 MySQL error code 1074 (ER_TOO_BIG_FIELDLENGTH): Column length too big for column '%-.192s' (max = %lu); use BLOB or TEXT instead
 MySQL error code 1075 (ER_WRONG_AUTO_KEY): Incorrect table definition; there can be only one auto column and it must be defined as a key
-MySQL error code 1076 (ER_READY): %s: ready for connections.
-Version: '%s'  socket: '%s'  port: %d
-MySQL error code 1077 (ER_NORMAL_SHUTDOWN): %s: Normal shutdown
-
-MySQL error code 1078 (ER_GOT_SIGNAL): %s: Got signal %d. Aborting!
-
-MySQL error code 1079 (ER_SHUTDOWN_COMPLETE): %s: Shutdown complete
-
-MySQL error code 1080 (ER_FORCING_CLOSE): %s: Forcing close of thread %ld  user: '%-.48s'
-
+MySQL error code 1076 (ER_READY): %s: ready for connections.\nVersion: '%s'  socket: '%s'  port: %d
+MySQL error code 1077 (ER_NORMAL_SHUTDOWN): %s: Normal shutdown\n
+MySQL error code 1078 (ER_GOT_SIGNAL): %s: Got signal %d. Aborting!\n
+MySQL error code 1079 (ER_SHUTDOWN_COMPLETE): %s: Shutdown complete\n
+MySQL error code 1080 (ER_FORCING_CLOSE): %s: Forcing close of thread %ld  user: '%-.48s'\n
 MySQL error code 1081 (ER_IPSOCK_ERROR): Can't create IP socket
 MySQL error code 1082 (ER_NO_SUCH_INDEX): Table '%-.192s' has no index like the one used in CREATE INDEX; recreate the table
 MySQL error code 1083 (ER_WRONG_FIELD_TERMINATORS): Field separator argument is not what is expected; check the manual
@@ -102,8 +97,7 @@ MySQL error code 1094 (ER_NO_SUCH_THREAD): Unknown thread id: %lu
 MySQL error code 1095 (ER_KILL_DENIED_ERROR): You are not owner of thread %lu
 MySQL error code 1096 (ER_NO_TABLES_USED): No tables used
 MySQL error code 1097 (ER_TOO_BIG_SET): Too many strings for column %-.192s and SET
-MySQL error code 1098 (ER_NO_UNIQUE_LOGFILE): Can't generate a unique log-filename %-.200s.(1-999)
-
+MySQL error code 1098 (ER_NO_UNIQUE_LOGFILE): Can't generate a unique log-filename %-.200s.(1-999)\n
 MySQL error code 1099 (ER_TABLE_NOT_LOCKED_FOR_WRITE): Table '%-.192s' was locked with a READ lock and can't be updated
 MySQL error code 1100 (ER_TABLE_NOT_LOCKED): Table '%-.192s' was not locked with LOCK TABLES
 MySQL error code 1101 (ER_BLOB_CANT_HAVE_DEFAULT): BLOB/TEXT column '%-.192s' can't have a default value
@@ -412,8 +406,7 @@ MySQL error code 1404 (ER_PROC_AUTO_GRANT_FAIL): Failed to grant EXECUTE and ALT
 MySQL error code 1405 (ER_PROC_AUTO_REVOKE_FAIL): Failed to revoke all privileges to dropped routine
 MySQL error code 1406 (ER_DATA_TOO_LONG): Data too long for column '%s' at row %ld
 MySQL error code 1407 (ER_SP_BAD_SQLSTATE): Bad SQLSTATE: '%s'
-MySQL error code 1408 (ER_STARTUP): %s: ready for connections.
-Version: '%s'  socket: '%s'  port: %d  %s
+MySQL error code 1408 (ER_STARTUP): %s: ready for connections.\nVersion: '%s'  socket: '%s'  port: %d  %s
 MySQL error code 1409 (ER_LOAD_FROM_FIXED_SIZE_ROWS_TO_VAR): Can't load value from file with fixed size rows to variable
 MySQL error code 1410 (ER_CANT_CREATE_USER_WITH_GRANT): You are not allowed to create a user with GRANT
 MySQL error code 1411 (ER_WRONG_VALUE_FOR_TYPE): Incorrect %-.32s value: '%-.128s' for function %-.32s

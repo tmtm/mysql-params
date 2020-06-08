@@ -64,12 +64,9 @@ MySQL error code MY-001072 (ER_KEY_COLUMN_DOES_NOT_EXITS): Key column '%-.192s' 
 MySQL error code MY-001073 (ER_BLOB_USED_AS_KEY): BLOB column '%-.192s' can't be used in key specification with the used table type
 MySQL error code MY-001074 (ER_TOO_BIG_FIELDLENGTH): Column length too big for column '%-.192s' (max = %lu); use BLOB or TEXT instead
 MySQL error code MY-001075 (ER_WRONG_AUTO_KEY): Incorrect table definition; there can be only one auto column and it must be defined as a key
-MySQL error code MY-001076 (ER_READY): %s: ready for connections.
-Version: '%s'  socket: '%s'  port: %d
-MySQL error code MY-001079 (ER_SHUTDOWN_COMPLETE): %s: Shutdown complete
-
-MySQL error code MY-001080 (ER_FORCING_CLOSE): %s: Forcing close of thread %ld  user: '%-.48s'
-
+MySQL error code MY-001076 (ER_READY): %s: ready for connections.\nVersion: '%s'  socket: '%s'  port: %d
+MySQL error code MY-001079 (ER_SHUTDOWN_COMPLETE): %s: Shutdown complete\n
+MySQL error code MY-001080 (ER_FORCING_CLOSE): %s: Forcing close of thread %ld  user: '%-.48s'\n
 MySQL error code MY-001081 (ER_IPSOCK_ERROR): Can't create IP socket
 MySQL error code MY-001082 (ER_NO_SUCH_INDEX): Table '%-.192s' has no index like the one used in CREATE INDEX; recreate the table
 MySQL error code MY-001083 (ER_WRONG_FIELD_TERMINATORS): Field separator argument is not what is expected; check the manual
@@ -87,8 +84,7 @@ MySQL error code MY-001094 (ER_NO_SUCH_THREAD): Unknown thread id: %lu
 MySQL error code MY-001095 (ER_KILL_DENIED_ERROR): You are not owner of thread %lu
 MySQL error code MY-001096 (ER_NO_TABLES_USED): No tables used
 MySQL error code MY-001097 (ER_TOO_BIG_SET): Too many strings for column %-.192s and SET
-MySQL error code MY-001098 (ER_NO_UNIQUE_LOGFILE): Can't generate a unique log-filename %-.200s.(1-999)
-
+MySQL error code MY-001098 (ER_NO_UNIQUE_LOGFILE): Can't generate a unique log-filename %-.200s.(1-999)\n
 MySQL error code MY-001099 (ER_TABLE_NOT_LOCKED_FOR_WRITE): Table '%-.192s' was locked with a READ lock and can't be updated
 MySQL error code MY-001100 (ER_TABLE_NOT_LOCKED): Table '%-.192s' was not locked with LOCK TABLES
 MySQL error code MY-001101 (ER_BLOB_CANT_HAVE_DEFAULT): BLOB, TEXT, GEOMETRY or JSON column '%-.192s' can't have a default value
@@ -3646,8 +3642,7 @@ MySQL error code MY-012538 (ER_IB_MSG_713): %s
 MySQL error code MY-012539 (ER_IB_MSG_714): %s
 MySQL error code MY-012540 (ER_IB_MSG_715): %s
 MySQL error code MY-012541 (ER_IB_MSG_716): %s
-MySQL error code MY-012542 (ER_IB_MSG_717): An optimized(without redo logging) DDL operation has been performed. All modified pages may not have been flushed to the disk yet.
-This offline backup may not be consistent
+MySQL error code MY-012542 (ER_IB_MSG_717): An optimized(without redo logging) DDL operation has been performed. All modified pages may not have been flushed to the disk yet.\nThis offline backup may not be consistent
 MySQL error code MY-012543 (ER_IB_MSG_718): Extending tablespace : %lu space name: %s to new size: %lu pages during recovery.
 MySQL error code MY-012544 (ER_IB_MSG_719): Could not extend tablespace: %lu space name: %s to new size: %lu pages during recovery.
 MySQL error code MY-012545 (ER_IB_MSG_720): Log block %llu at lsn %llu has valid header, but checksum field contains %lu, should be %lu.
