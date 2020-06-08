@@ -2,7 +2,7 @@
 <html>
     <head>
         <meta charset="utf-8">
-        <title>charset / MySQL Parameters</title>
+        <title>error / MySQL Parameters</title>
         <script src="../js/vue.js"></script>
         <script src="../js/vue-select.js"></script>
         <script src="../js/axios.min.js"></script>
@@ -62,13 +62,13 @@
                 <li><a v-bind:href="'../mysqld/'+qs">mysqld</a></li>
                 <li><a v-bind:href="'../mysql/'+qs">mysql</a></li>
                 <li><a v-bind:href="'../status/'+qs">status</a></li>
-                <li><a v-bind:href="'../charset/'+qs" class="current">charset</a></li>
+                <li><a v-bind:href="'../charset/'+qs">charset</a></li>
                 <li><a v-bind:href="'../collation/'+qs">collation</a></li>
                 <li><a v-bind:href="'../privilege/'+qs">privilege</a></li>
                 <li><a v-bind:href="'../function/'+qs">function</a></li>
                 <li><a v-bind:href="'../ischema/'+qs">information_schema</a></li>
                 <li><a v-bind:href="'../pschema/'+qs">performance_schema</a></li>
-                <li><a v-bind:href="'../error/'+qs">error</a></li>
+                <li><a v-bind:href="'../error/'+qs" class="current">error</a></li>
             </ul>
             Version:
             <v-select id="version" v-model="selected_vers" :options="all_vers" multiple :on-change="version_selected"></v-select>
@@ -80,7 +80,7 @@
                 <thead>
                     <tr>
                         <th>
-                            Charset
+                            Error
                         </th>
                         <th v-for="ver in selected_vers2">
                             {{ ver }}
