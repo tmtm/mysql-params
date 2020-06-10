@@ -123,7 +123,7 @@ end
     vers[ver] = "json/#{ver}.json"
     params = txt.read.lines.map do |line|
       line.sub!(/^MySQL error code (MY-)?/, '')
-      num, msg = line.chomp.split(/: +/, 2)
+      num, msg = line.chomp.split(/ +/, 2)
       ["%05d"%num.to_i, msg.gsub(/\\n/, "\n")]
     end.to_h
     (dir + "json/#{ver}.json").write params.to_json
