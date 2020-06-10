@@ -84,11 +84,11 @@ _func() {
 }
 
 p_ischema() {
-    bin/mysql --no-defaults -N information_schema -e "SELECT TABLE_NAME,COLUMN_NAME FROM COLUMNS WHERE TABLE_SCHEMA='information_schema'" > $CURDIR/ischema/data/$ver.txt
+    bin/mysql --no-defaults -N information_schema -e "SELECT TABLE_NAME,COLUMN_NAME FROM COLUMNS WHERE TABLE_SCHEMA='information_schema'" | sort > $CURDIR/ischema/data/$ver.txt
 }
 
 p_pschema() {
-    bin/mysql --no-defaults -N information_schema -e "SELECT TABLE_NAME,COLUMN_NAME FROM COLUMNS WHERE TABLE_SCHEMA='performance_schema'" > $CURDIR/pschema/data/$ver.txt || true
+    bin/mysql --no-defaults -N information_schema -e "SELECT TABLE_NAME,COLUMN_NAME FROM COLUMNS WHERE TABLE_SCHEMA='performance_schema'" | sort > $CURDIR/pschema/data/$ver.txt || true
 }
 
 p_error() {
