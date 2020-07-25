@@ -37,6 +37,9 @@ The following options may be given as the first argument:
                       will also set transaction isolation level 'serializable'.
   --archive[=name]    Enable or disable ARCHIVE plugin. Possible values are ON,
                       OFF, FORCE (don't start if the plugin fails to load).
+  --auth-socket[=name] 
+                      Enable or disable auth_socket plugin. Possible values are
+                      ON, OFF, FORCE (don't start if the plugin fails to load).
   --auto-generate-certs 
                       Auto generate SSL certificates at server startup if --ssl
                       is set to ON and none of the other SSL system variables
@@ -241,12 +244,44 @@ The following options may be given as the first argument:
                       NEVER, AUTO, ALWAYS
   --connect-timeout=# The number of seconds the mysqld server is waiting for a
                       connect packet before responding with 'Bad handshake'
+  --connection-control[=name] 
+                      Enable or disable CONNECTION_CONTROL plugin. Possible
+                      values are ON, OFF, FORCE (don't start if the plugin
+                      fails to load).
+  --connection-control-failed-connections-threshold=# 
+                      Failed connection threshold to trigger delay. Default is
+                      3.
+  --connection-control-failed-login-attempts[=name] 
+                      Enable or disable
+                      CONNECTION_CONTROL_FAILED_LOGIN_ATTEMPTS plugin. Possible
+                      values are ON, OFF, FORCE (don't start if the plugin
+                      fails to load).
+  --connection-control-max-connection-delay=# 
+                      Maximum delay to be introduced. Default is 2147483647.
+  --connection-control-min-connection-delay=# 
+                      Maximum delay to be introduced. Default is 1000.
   --console           Write error output on screen; don't remove the console
                       window on windows.
   --core-file         Write core on errors.
   --cte-max-recursion-depth=# 
                       Abort a recursive common table expression if it does more
                       than this number of iterations.
+  --daemon-memcached[=name] 
+                      Enable or disable daemon_memcached plugin. Possible
+                      values are ON, OFF, FORCE (don't start if the plugin
+                      fails to load).
+  --daemon-memcached-enable-binlog 
+                      whether to enable binlog
+  --daemon-memcached-engine-lib-name=name 
+                      memcached engine library name
+  --daemon-memcached-engine-lib-path=name 
+                      memcached engine library path
+  --daemon-memcached-option=name 
+                      memcached option string
+  --daemon-memcached-r-batch-size=# 
+                      read batch commit size
+  --daemon-memcached-w-batch-size=# 
+                      write batch commit size
   -D, --daemonize     Run mysqld as sysv daemon
   -h, --datadir=name  Path to the database root directory
   --default-authentication-plugin=name 
@@ -318,6 +353,16 @@ The following options may be given as the first argument:
                       Enable the event scheduler. Possible values are ON, OFF,
                       and DISABLED (keep the event scheduler completely
                       deactivated, it cannot be activated run-time)
+  --example[=name]    Enable or disable EXAMPLE plugin. Possible values are ON,
+                      OFF, FORCE (don't start if the plugin fails to load).
+  --example-double-thdvar=# 
+                      0.500000..1000.500000
+  --example-double-var=# 
+                      0.500000..1000.500000
+  --example-enum-var=name 
+                      Sample ENUM system variable.
+  --example-ulong-var=# 
+                      0..1000
   -T, --exit-info[=#] Used for debugging. Use at your own risk.
   --expire-logs-days=# 
                       If non-zero, binary logs will be purged after
@@ -366,6 +411,166 @@ The following options may be given as the first argument:
   --group-concat-max-len=# 
                       The maximum length of the result of function 
                       GROUP_CONCAT()
+  --group-replication[=name] 
+                      Enable or disable group_replication plugin. Possible
+                      values are ON, OFF, FORCE (don't start if the plugin
+                      fails to load).
+  --group-replication-allow-local-lower-version-join 
+                      Allow this server to join the group even if it has a
+                      lower plugin version than the group
+  --group-replication-auto-increment-increment[=#] 
+                      The group replication auto_increment_increment determines
+                      interval between successive column values
+  --group-replication-bootstrap-group 
+                      Specify if this member will bootstrap the group.
+  --group-replication-communication-debug-options[=name] 
+                      The set of debug options, comma separated. E.g.,
+                      DEBUG_BASIC, DEBUG_ALL.
+  --group-replication-components-stop-timeout[=#] 
+                      Timeout in seconds that the plugin waits for each of the
+                      components when shutting down.
+  --group-replication-compression-threshold[=#] 
+                      The value in bytes above which (lz4) compression is
+                      enforced. When set to zero, deactivates compression.
+                      Default: 1000000.
+  --group-replication-enforce-update-everywhere-checks 
+                      Enable/Disable strict consistency checks for multi-master
+                      update everywhere. Default: FALSE.
+  --group-replication-exit-state-action[=name] 
+                      The action that is taken when the server leaves the
+                      group. Possible values are READ_ONLY or ABORT_SERVER.
+  --group-replication-flow-control-applier-threshold[=#] 
+                      Specifies the number of waiting transactions that will
+                      trigger flow control. Default: 25000
+  --group-replication-flow-control-certifier-threshold[=#] 
+                      Specifies the number of waiting transactions that will
+                      trigger flow control. Default: 25000
+  --group-replication-flow-control-hold-percent[=#] 
+                      Specifies the percentage of the quota that is reserved
+                      for catch-up.Default: 10%, 0 disables
+  --group-replication-flow-control-max-quota[=#] 
+                      Specifies the maximum cluster commit rate allowed when
+                      flow-control is active.Default: 0 (disabled)
+  --group-replication-flow-control-member-quota-percent[=#] 
+                      Specifies the proportion of the quota that is assigned to
+                      this member.Default: 0% (disabled)
+  --group-replication-flow-control-min-quota[=#] 
+                      Specifies the minimum flow-control quota that can be
+                      assigned to a node.Default: 0 (5% of thresholds)
+  --group-replication-flow-control-min-recovery-quota[=#] 
+                      Specifies the minimum flow-control quota that can be
+                      assigned to a node,if flow control was needed due to a
+                      recovering node. Default: 0 (disabled)
+  --group-replication-flow-control-mode[=name] 
+                      Specifies the mode used on flow control. Default: QUOTA
+  --group-replication-flow-control-period[=#] 
+                      Specifies how many seconds to wait between flow-control
+                      iterations.Default: 1
+  --group-replication-flow-control-release-percent[=#] 
+                      Specifies the percentage of the quota the can increase
+                      per iterationwhen flow-control is released. Default: 50%,
+                      0 disables
+  --group-replication-force-members[=name] 
+                      The list of members, comma separated. E.g.,
+                      host1:port1,host2:port2. This option is used to force a
+                      new group membership, on which the excluded members will
+                      not receive a new view and will be blocked. The DBA will
+                      need to kill the excluded servers.
+  --group-replication-group-name[=name] 
+                      The group name
+  --group-replication-group-seeds[=name] 
+                      The list of group seeds, comma separated. E.g.,
+                      host1:port1,host2:port2.
+  --group-replication-gtid-assignment-block-size[=#] 
+                      The number of consecutive GTIDs that are reserved to each
+                      member. Each member will consume its blocks and reserve
+                      more when needed. Default: 1000000.
+  --group-replication-ip-whitelist[=name] 
+                      This option can be used to specify which members are
+                      allowed to connect to this member. The input takes the
+                      form of a comma separated list of IPv4 addresses or
+                      subnet CIDR notation. For example:
+                      192.168.1.0/24,10.0.0.1. In addition, the user can also
+                      set as input the value 'AUTOMATIC', in which case active
+                      interfaces on the host will be scanned and those with
+                      addresses on private subnetworks will be automatically
+                      added to the IP whitelist. The address 127.0.0.1 is
+                      always added if not specified explicitly in the
+                      whitelist. Default: 'AUTOMATIC'.
+  --group-replication-local-address[=name] 
+                      The local address, i.e., host:port.
+  --group-replication-member-expel-timeout[=#] 
+                      The period of time, in seconds, that a member waits
+                      before expelling any member suspected of failing from the
+                      group.
+  --group-replication-member-weight[=#] 
+                      Member weight will determine the member role in the group
+                      on future primary elections
+  --group-replication-poll-spin-loops[=#] 
+                      The number of times a thread waits for a communication
+                      engine mutex to be freed before the thread is suspended.
+  --group-replication-recovery-complete-at[=name] 
+                      Recovery policies when handling cached transactions after
+                      state transfer.possible values are TRANSACTIONS_CERTIFIED
+                      or TRANSACTION_APPLIED
+  --group-replication-recovery-get-public-key 
+                      Make recovery fetch the donor's public key information
+                      during authentication.
+  --group-replication-recovery-public-key-path[=name] 
+                      The path to a file containing donor's public key
+                      information.
+  --group-replication-recovery-reconnect-interval[=#] 
+                      The sleep time between reconnection attempts when no
+                      donor was found in the group
+  --group-replication-recovery-retry-count[=#] 
+                      The number of times that the joiner tries to connect to
+                      the available donors before giving up.
+  --group-replication-recovery-ssl-ca[=name] 
+                      The path to a file that contains a list of trusted SSL
+                      certificate authorities.
+  --group-replication-recovery-ssl-capath[=name] 
+                      The path to a directory that contains trusted SSL
+                      certificate authority certificates.
+  --group-replication-recovery-ssl-cert[=name] 
+                      The name of the SSL certificate file to use for
+                      establishing a secure connection.
+  --group-replication-recovery-ssl-cipher[=name] 
+                      A list of permissible ciphers to use for SSL encryption.
+  --group-replication-recovery-ssl-crl[=name] 
+                      The path to a file containing certificate revocation
+                      lists.
+  --group-replication-recovery-ssl-crlpath[=name] 
+                      The path to a directory that contains files containing
+                      certificate revocation lists.
+  --group-replication-recovery-ssl-key[=name] 
+                      The name of the SSL key file to use for establishing a
+                      secure connection.
+  --group-replication-recovery-ssl-verify-server-cert 
+                      Make recovery check the server's Common Name value in the
+                      donor sent certificate.
+  --group-replication-recovery-use-ssl 
+                      Whether SSL use should be obligatory during Group
+                      Replication recovery process.
+  --group-replication-single-primary-mode 
+                      Instructs the group to automatically pick a single server
+                      to be the one that handles read/write workload. This
+                      server is the PRIMARY all others are SECONDARIES.
+                      Default: TRUE.
+                      (Defaults to on; use --skip-group-replication-single-primary-mode to disable.)
+  --group-replication-ssl-mode[=name] 
+                      Specifies the security state of the connection between
+                      Group Replication members. Default: DISABLED
+  --group-replication-start-on-boot 
+                      Whether the server should start Group Replication or not
+                      during bootstrap.
+                      (Defaults to on; use --skip-group-replication-start-on-boot to disable.)
+  --group-replication-transaction-size-limit[=#] 
+                      Specifies the limit of transaction size that can be
+                      transferred over network.
+  --group-replication-unreachable-majority-timeout[=#] 
+                      The number of seconds before going into error when a
+                      majority of members is unreachable.If 0 there is no
+                      action taken.
   --gtid-executed-compression-period[=#] 
                       When binlog is disabled, a background thread wakes up to
                       compress the gtid_executed table every
@@ -851,6 +1056,12 @@ The following options may be given as the first argument:
                       The default size of key cache blocks
   --key-cache-division-limit=# 
                       The minimum percentage of warm blocks in key cache
+  --keyring-file[=name] 
+                      Enable or disable keyring_file plugin. Possible values
+                      are ON, OFF, FORCE (don't start if the plugin fails to
+                      load).
+  --keyring-file-data=name 
+                      The path to the keyring file. Must be specified
   --keyring-migration-destination=name 
                       Keyring plugin to which the keys are migrated to. This
                       option must be specified along with
@@ -871,6 +1082,9 @@ The following options may be given as the first argument:
                       --keyring-migration-destination.
   --keyring-migration-user=name 
                       User to login to server.
+  --keyring-udf[=name] 
+                      Enable or disable keyring_udf plugin. Possible values are
+                      ON, OFF, FORCE (don't start if the plugin fails to load).
   -L, --language=name Client error messages in given language. May be given as
                       a full path. Deprecated. Use --lc-messages-dir instead.
   --large-pages       Enable support for large pages
@@ -1052,10 +1266,16 @@ The following options may be given as the first argument:
   --max-write-lock-count=# 
                       After this many write locks, allow some read locks to run
                       in between
+  --mecab[=name]      Enable or disable mecab plugin. Possible values are ON,
+                      OFF, FORCE (don't start if the plugin fails to load).
+  --mecab-rc-file=name 
+                      MECABRC file path
   --memlock           Lock mysqld in memory.
   --min-examined-row-limit=# 
                       Don't write queries to slow log that examine fewer rows
                       than that
+  --mock[=name]       Enable or disable MOCK plugin. Possible values are ON,
+                      OFF, FORCE (don't start if the plugin fails to load).
   --myisam-block-size=# 
                       Block size to be used for MyISAM index pages
   --myisam-data-pointer-size=# 
@@ -1090,6 +1310,10 @@ The following options may be given as the first argument:
                       users.  When set to TRUE, the plugin will flag associated
                       authenticated accounts to be mapped to proxy users when
                       the server option check_proxy_users is enabled.
+  --mysql-no-login[=name] 
+                      Enable or disable mysql_no_login plugin. Possible values
+                      are ON, OFF, FORCE (don't start if the plugin fails to
+                      load).
   --mysqlx[=name]     Enable or disable mysqlx plugin. Possible values are ON,
                       OFF, FORCE (don't start if the plugin fails to load).
   --mysqlx-bind-address[=name] 
@@ -1169,6 +1393,25 @@ The following options may be given as the first argument:
                       characters
   --no-dd-upgrade     Abort restart if automatic upgrade or downgrade of the
                       data dictionary is needed.
+  --null-audit[=name] Enable or disable NULL_AUDIT plugin. Possible values are
+                      ON, OFF, FORCE (don't start if the plugin fails to load).
+  --null-audit-abort-message=name 
+                      Custom message for event abort.
+  --null-audit-abort-value=# 
+                      Event abort value.
+  --null-audit-event-order-check=name 
+                      Event order check string
+  --null-audit-event-order-check-consume-ignore-count=# 
+                      Do not consume event order string specified number of
+                      times.
+  --null-audit-event-order-check-exact=# 
+                      Plugin checks exact event order.
+  --null-audit-event-order-started=# 
+                      Plugin is in the event order check.
+  --null-audit-event-record=name 
+                      Event recording
+  --null-audit-event-record-def=name 
+                      Event recording definition
   --offline-mode      Make the server into offline mode
   --old               Use compatible behavior
   --old-alter-table   Use old, non-optimized alter table
@@ -1572,10 +1815,61 @@ The following options may be given as the first argument:
                       When this option is enabled, connections attempted using
                       insecure transport will be rejected.  Secure transports
                       are SSL/TLS, Unix socket or Shared Memory (on Windows).
+  --rewrite-example[=name] 
+                      Enable or disable rewrite_example plugin. Possible values
+                      are ON, OFF, FORCE (don't start if the plugin fails to
+                      load).
+  --rewriter[=name]   Enable or disable Rewriter plugin. Possible values are
+                      ON, OFF, FORCE (don't start if the plugin fails to load).
+  --rewriter-enabled  Whether queries should actually be rewritten.
+                      (Defaults to on; use --skip-rewriter-enabled to disable.)
+  --rewriter-verbose  Tells Rewriter how verbose it should be.
   --rpl-read-size=#   The size for reads done from the binlog and relay log. It
                       must be a multiple of 4kb. Making it larger might help
                       with IO stalls while reading these files when they are
                       not in the OS buffer cache
+  --rpl-semi-sync-master[=name] 
+                      Enable or disable rpl_semi_sync_master plugin. Possible
+                      values are ON, OFF, FORCE (don't start if the plugin
+                      fails to load).
+  --rpl-semi-sync-master-enabled 
+                      Enable semi-synchronous replication master (disabled by
+                      default). 
+  --rpl-semi-sync-master-timeout[=#] 
+                      The timeout value (in ms) for semi-synchronous
+                      replication in the master
+  --rpl-semi-sync-master-trace-level[=#] 
+                      The tracing level for semi-sync replication.
+  --rpl-semi-sync-master-wait-for-slave-count[=#] 
+                      How many slaves the events should be replicated to.
+                      Semisynchronous replication master will wait until all
+                      events of the transaction are replicated to at least
+                      rpl_semi_sync_master_wait_for_slave_count slaves
+  --rpl-semi-sync-master-wait-no-slave 
+                      Wait until timeout when no semi-synchronous replication
+                      slave available (enabled by default). 
+                      (Defaults to on; use --skip-rpl-semi-sync-master-wait-no-slave to disable.)
+  --rpl-semi-sync-master-wait-point[=name] 
+                      Semisync can wait for slave ACKs at one of two
+                      points,AFTER_SYNC or AFTER_COMMIT. AFTER_SYNC is the
+                      default value.AFTER_SYNC means that semisynchronous
+                      replication waits just after the binary log file is
+                      flushed, but before the engine commits, and so guarantees
+                      that no other sessions can see the data before replicated
+                      to slave. AFTER_COMMIT means that semisynchronous
+                      replication waits just after the engine commits. Other
+                      sessions may see the data before it is replicated, even
+                      though the current session is still waiting for the
+                      commit to end successfully.
+  --rpl-semi-sync-slave[=name] 
+                      Enable or disable rpl_semi_sync_slave plugin. Possible
+                      values are ON, OFF, FORCE (don't start if the plugin
+                      fails to load).
+  --rpl-semi-sync-slave-enabled 
+                      Enable semi-synchronous replication slave (disabled by
+                      default). 
+  --rpl-semi-sync-slave-trace-level[=#] 
+                      The tracing level for semi-sync replication.
   --rpl-stop-slave-timeout=# 
                       Timeout in seconds to wait for slave to stop before
                       returning a warning.
@@ -1639,6 +1933,22 @@ The following options may be given as the first argument:
   --show-slave-auth-info 
                       Show user and password in SHOW SLAVE HOSTS on this
                       master.
+  --simple-parser[=name] 
+                      Enable or disable simple_parser plugin. Possible values
+                      are ON, OFF, FORCE (don't start if the plugin fails to
+                      load).
+  --simple-parser-simple-sysvar-one=# 
+                      Simple fulltext parser example system variable number
+                      one. Give a number.
+  --simple-parser-simple-sysvar-two=name 
+                      Simple fulltext parser example system variable number
+                      two. Give a string.
+  --simple-parser-simple-thdvar-one=# 
+                      Simple fulltext parser example thread variable number
+                      one. Give a number.
+  --simple-parser-simple-thdvar-two=name 
+                      Simple fulltext parser example thread variable number
+                      two. Give a string.
   --skip-grant-tables Start without grant tables. This gives all users FULL
                       ACCESS to all tables.
   --skip-host-cache   Don't cache host names.
@@ -1843,12 +2153,46 @@ The following options may be given as the first argument:
                       of the underlying table and the query uses a LIMIT clause
                       (usually get from GUI tools)
   -u, --user=name     Run mysqld daemon as user.
+  --validate-password[=name] 
+                      Enable or disable validate_password plugin. Possible
+                      values are ON, OFF, FORCE (don't start if the plugin
+                      fails to load).
+  --validate-password-check-user-name 
+                      Check if the password matches the login or the effective
+                      user names or the reverse of them
+                      (Defaults to on; use --skip-validate-password-check-user-name to disable.)
+  --validate-password-dictionary-file=name 
+                      password_validate_dictionary file to be loaded and check
+                      for password
+  --validate-password-length=# 
+                      Password validate length to check for minimum
+                      password_length
+  --validate-password-mixed-case-count=# 
+                      Password validate mixed case to ensure minimum
+                      upper/lower case in password
+  --validate-password-number-count=# 
+                      password validate digit to ensure minimum numeric
+                      character in password
+  --validate-password-policy=name 
+                      password_validate_policy choosen policy to validate
+                      passwordpossible values are LOW MEDIUM (default), STRONG
+  --validate-password-special-char-count=# 
+                      password validate special to ensure minimum special
+                      character in password
   --validate-user-plugins 
                       Turns on additional validation of authentication plugins
                       assigned to user accounts. 
                       (Defaults to on; use --skip-validate-user-plugins to disable.)
   -v, --verbose       Used with --help option for detailed help.
   -V, --version       Output version information and exit.
+  --version-tokens[=name] 
+                      Enable or disable version_tokens plugin. Possible values
+                      are ON, OFF, FORCE (don't start if the plugin fails to
+                      load).
+  --version-tokens-session=name 
+                      Holds the session value for version tokens
+  --version-tokens-session-number=# 
+                      Version number to assist with session tokens check
   --wait-timeout=#    The number of seconds the server waits for activity on a
                       connection before closing it
   --windowing-use-high-precision 
@@ -1864,6 +2208,7 @@ abort-slave-event-count                                      0
 activate-all-roles-on-login                                  FALSE
 allow-suspicious-udfs                                        FALSE
 archive                                                      ON
+auth-socket                                                  ON
 auto-generate-certs                                          TRUE
 auto-increment-increment                                     1
 auto-increment-offset                                        1
@@ -1909,8 +2254,20 @@ collation-server                                             utf8mb4_0900_ai_ci
 completion-type                                              NO_CHAIN
 concurrent-insert                                            AUTO
 connect-timeout                                              10
+connection-control                                           ON
+connection-control-failed-connections-threshold              3
+connection-control-failed-login-attempts                     ON
+connection-control-max-connection-delay                      2147483647
+connection-control-min-connection-delay                      1000
 console                                                      FALSE
 cte-max-recursion-depth                                      1000
+daemon-memcached                                             ON
+daemon-memcached-enable-binlog                               FALSE
+daemon-memcached-engine-lib-name                             innodb_engine.so
+daemon-memcached-engine-lib-path                             (No default value)
+daemon-memcached-option                                      (No default value)
+daemon-memcached-r-batch-size                                1
+daemon-memcached-w-batch-size                                1
 daemonize                                                    FALSE
 datadir                                                      /usr/local/mysql/data/
 default-authentication-plugin                                caching_sha2_password
@@ -1931,6 +2288,11 @@ end-markers-in-json                                          FALSE
 enforce-gtid-consistency                                     FALSE
 eq-range-index-dive-limit                                    200
 event-scheduler                                              ON
+example                                                      ON
+example-double-thdvar                                        8.5
+example-double-var                                           8.5
+example-enum-var                                             e1
+example-ulong-var                                            8
 expire-logs-days                                             0
 explicit-defaults-for-timestamp                              TRUE
 external-locking                                             FALSE
@@ -1946,6 +2308,53 @@ gdb                                                          FALSE
 general-log                                                  FALSE
 general-log-file                                             /usr/local/mysql/data/hostname.log
 group-concat-max-len                                         1024
+group-replication                                            ON
+group-replication-allow-local-lower-version-join             FALSE
+group-replication-auto-increment-increment                   7
+group-replication-bootstrap-group                            FALSE
+group-replication-communication-debug-options                GCS_DEBUG_NONE
+group-replication-components-stop-timeout                    31536000
+group-replication-compression-threshold                      1000000
+group-replication-enforce-update-everywhere-checks           FALSE
+group-replication-exit-state-action                          ABORT_SERVER
+group-replication-flow-control-applier-threshold             25000
+group-replication-flow-control-certifier-threshold           25000
+group-replication-flow-control-hold-percent                  10
+group-replication-flow-control-max-quota                     0
+group-replication-flow-control-member-quota-percent          0
+group-replication-flow-control-min-quota                     0
+group-replication-flow-control-min-recovery-quota            0
+group-replication-flow-control-mode                          QUOTA
+group-replication-flow-control-period                        1
+group-replication-flow-control-release-percent               50
+group-replication-force-members                              
+group-replication-group-name                                 (No default value)
+group-replication-group-seeds                                
+group-replication-gtid-assignment-block-size                 1000000
+group-replication-ip-whitelist                               AUTOMATIC
+group-replication-local-address                              
+group-replication-member-expel-timeout                       0
+group-replication-member-weight                              50
+group-replication-poll-spin-loops                            0
+group-replication-recovery-complete-at                       TRANSACTIONS_APPLIED
+group-replication-recovery-get-public-key                    FALSE
+group-replication-recovery-public-key-path                   
+group-replication-recovery-reconnect-interval                60
+group-replication-recovery-retry-count                       10
+group-replication-recovery-ssl-ca                            
+group-replication-recovery-ssl-capath                        
+group-replication-recovery-ssl-cert                          
+group-replication-recovery-ssl-cipher                        
+group-replication-recovery-ssl-crl                           
+group-replication-recovery-ssl-crlpath                       
+group-replication-recovery-ssl-key                           
+group-replication-recovery-ssl-verify-server-cert            FALSE
+group-replication-recovery-use-ssl                           FALSE
+group-replication-single-primary-mode                        TRUE
+group-replication-ssl-mode                                   DISABLED
+group-replication-start-on-boot                              TRUE
+group-replication-transaction-size-limit                     150000000
+group-replication-unreachable-majority-timeout               0
 gtid-executed-compression-period                             1000
 gtid-mode                                                    OFF
 help                                                         TRUE
@@ -2100,12 +2509,15 @@ key-buffer-size                                              8388608
 key-cache-age-threshold                                      300
 key-cache-block-size                                         1024
 key-cache-division-limit                                     100
+keyring-file                                                 ON
+keyring-file-data                                            /usr/local/mysql/keyring/keyring
 keyring-migration-destination                                (No default value)
 keyring-migration-host                                       (No default value)
 keyring-migration-port                                       0
 keyring-migration-socket                                     (No default value)
 keyring-migration-source                                     (No default value)
 keyring-migration-user                                       (No default value)
+keyring-udf                                                  ON
 language                                                     /usr/local/mysql/share/
 large-pages                                                  FALSE
 lc-messages                                                  en_US
@@ -2164,8 +2576,11 @@ max-sort-length                                              1024
 max-sp-recursion-depth                                       0
 max-user-connections                                         0
 max-write-lock-count                                         18446744073709551615
+mecab                                                        ON
+mecab-rc-file                                                (No default value)
 memlock                                                      FALSE
 min-examined-row-limit                                       0
+mock                                                         ON
 myisam-block-size                                            1024
 myisam-data-pointer-size                                     6
 myisam-max-sort-file-size                                    9223372036853727232
@@ -2176,6 +2591,7 @@ myisam-sort-buffer-size                                      8388608
 myisam-stats-method                                          nulls_unequal
 myisam-use-mmap                                              FALSE
 mysql-native-password-proxy-users                            FALSE
+mysql-no-login                                               ON
 mysqlx                                                       ON
 mysqlx-bind-address                                          *
 mysqlx-cache-cleaner                                         ON
@@ -2207,6 +2623,15 @@ new                                                          FALSE
 ngram                                                        ON
 ngram-token-size                                             2
 no-dd-upgrade                                                FALSE
+null-audit                                                   ON
+null-audit-abort-message                                     (No default value)
+null-audit-abort-value                                       1
+null-audit-event-order-check                                 (No default value)
+null-audit-event-order-check-consume-ignore-count            0
+null-audit-event-order-check-exact                           1
+null-audit-event-order-started                               0
+null-audit-event-record                                      (No default value)
+null-audit-event-record-def                                  (No default value)
 offline-mode                                                 FALSE
 old                                                          FALSE
 old-alter-table                                              FALSE
@@ -2313,7 +2738,21 @@ report-password                                              (No default value)
 report-port                                                  0
 report-user                                                  (No default value)
 require-secure-transport                                     FALSE
+rewrite-example                                              ON
+rewriter                                                     ON
+rewriter-enabled                                             TRUE
+rewriter-verbose                                             1
 rpl-read-size                                                8192
+rpl-semi-sync-master                                         ON
+rpl-semi-sync-master-enabled                                 FALSE
+rpl-semi-sync-master-timeout                                 10000
+rpl-semi-sync-master-trace-level                             32
+rpl-semi-sync-master-wait-for-slave-count                    1
+rpl-semi-sync-master-wait-no-slave                           TRUE
+rpl-semi-sync-master-wait-point                              AFTER_SYNC
+rpl-semi-sync-slave                                          ON
+rpl-semi-sync-slave-enabled                                  FALSE
+rpl-semi-sync-slave-trace-level                              32
 rpl-stop-slave-timeout                                       31536000
 safe-user-create                                             FALSE
 schema-definition-cache                                      256
@@ -2332,6 +2771,11 @@ sha256-password-public-key-path                              public_key.pem
 show-create-table-verbosity                                  FALSE
 show-old-temporals                                           FALSE
 show-slave-auth-info                                         FALSE
+simple-parser                                                ON
+simple-parser-simple-sysvar-one                              77
+simple-parser-simple-sysvar-two                              simple sysvar two default
+simple-parser-simple-thdvar-one                              88
+simple-parser-simple-thdvar-two                              simple thdvar two default
 skip-grant-tables                                            FALSE
 skip-name-resolve                                            FALSE
 skip-networking                                              FALSE
@@ -2399,8 +2843,19 @@ transaction-prealloc-size                                    4096
 transaction-read-only                                        FALSE
 transaction-write-set-extraction                             XXHASH64
 updatable-views-with-limit                                   YES
+validate-password                                            ON
+validate-password-check-user-name                            TRUE
+validate-password-dictionary-file                            (No default value)
+validate-password-length                                     8
+validate-password-mixed-case-count                           1
+validate-password-number-count                               1
+validate-password-policy                                     MEDIUM
+validate-password-special-char-count                         1
 validate-user-plugins                                        TRUE
 verbose                                                      TRUE
+version-tokens                                               ON
+version-tokens-session                                       (No default value)
+version-tokens-session-number                                0
 wait-timeout                                                 28800
 windowing-use-high-precision                                 TRUE
 

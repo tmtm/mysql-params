@@ -40,6 +40,12 @@ stop() {
 
 p_mysqld() {
     /usr/local/mysql/bin/mysqld --no-defaults -u mysql --help -v > $CURDIR/mysqld/data/$ver.txt || true
+    if [ -d /usr/local/mysql/lib/plugin ]; then
+        plugin_load="$(grep -h ^plugin-load $CURDIR/mysqld/data/$ver.txt || true)"
+        plugins=$(cd /usr/local/mysql/lib/plugin; ls *.so | grep -Ev '^component|client|innodb_engine|locking_service' | tr "\n" ";")
+        /usr/local/mysql/bin/mysqld --no-defaults --plugin-load="$plugins" -u mysql --help -v > $CURDIR/mysqld/data/$ver.txt || true
+        sed -i -e "s/^plugin-load .*$/$plugin_load/" $CURDIR/mysqld/data/$ver.txt
+    fi
     sed -i -e "s/$(hostname)/hostname/g" $CURDIR/mysqld/data/$ver.txt
 }
 

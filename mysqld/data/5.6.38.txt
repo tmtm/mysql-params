@@ -34,6 +34,9 @@ The following options may be given as the first argument:
                       will also set transaction isolation level 'serializable'.
   --archive[=name]    Enable or disable ARCHIVE plugin. Possible values are ON,
                       OFF, FORCE (don't start if the plugin fails to load).
+  --auth-socket[=name] 
+                      Enable or disable auth_socket plugin. Possible values are
+                      ON, OFF, FORCE (don't start if the plugin fails to load).
   --auto-increment-increment[=#] 
                       Auto-increment columns are incremented by this
   --auto-increment-offset[=#] 
@@ -169,6 +172,10 @@ The following options may be given as the first argument:
   --character-sets-dir=name 
                       Directory where character sets are
   -r, --chroot=name   Chroot mysqld daemon during startup.
+  --cleartext-plugin-server[=name] 
+                      Enable or disable cleartext_plugin_server plugin.
+                      Possible values are ON, OFF, FORCE (don't start if the
+                      plugin fails to load).
   --collation-server=name 
                       Set the default collation.
   --completion-type=name 
@@ -179,9 +186,45 @@ The following options may be given as the first argument:
                       NEVER, AUTO, ALWAYS
   --connect-timeout=# The number of seconds the mysqld server is waiting for a
                       connect packet before responding with 'Bad handshake'
+  --connection-control[=name] 
+                      Enable or disable CONNECTION_CONTROL plugin. Possible
+                      values are ON, OFF, FORCE (don't start if the plugin
+                      fails to load).
+  --connection-control-failed-connections-threshold=# 
+                      Failed connection threshold to trigger delay. Default is
+                      3.
+  --connection-control-failed-login-attempts[=name] 
+                      Enable or disable
+                      CONNECTION_CONTROL_FAILED_LOGIN_ATTEMPTS plugin. Possible
+                      values are ON, OFF, FORCE (don't start if the plugin
+                      fails to load).
+  --connection-control-max-connection-delay=# 
+                      Maximum delay to be introduced. Default is 2147483647.
+  --connection-control-min-connection-delay=# 
+                      Maximum delay to be introduced. Default is 1000.
   --console           Write error output on screen; don't remove the console
                       window on windows.
   --core-file         Write core on errors.
+  --daemon-example[=name] 
+                      Enable or disable daemon_example plugin. Possible values
+                      are ON, OFF, FORCE (don't start if the plugin fails to
+                      load).
+  --daemon-memcached[=name] 
+                      Enable or disable daemon_memcached plugin. Possible
+                      values are ON, OFF, FORCE (don't start if the plugin
+                      fails to load).
+  --daemon-memcached-enable-binlog 
+                      whether to enable binlog
+  --daemon-memcached-engine-lib-name=name 
+                      memcached engine library name
+  --daemon-memcached-engine-lib-path=name 
+                      memcached engine library path
+  --daemon-memcached-option=name 
+                      memcached option string
+  --daemon-memcached-r-batch-size=# 
+                      read batch commit size
+  --daemon-memcached-w-batch-size=# 
+                      write batch commit size
   -h, --datadir=name  Path to the database root directory
   --date-format=name  The DATE format (ignored)
   --datetime-format=name 
@@ -989,6 +1032,10 @@ The following options may be given as the first argument:
                       NULLS_UNEQUAL (default behavior for 4.1 and later),
                       NULLS_EQUAL (emulate 4.0 behavior), and NULLS_IGNORED
   --myisam-use-mmap   Use memory mapping for reading and writing MyISAM tables
+  --mysql-no-login[=name] 
+                      Enable or disable mysql_no_login plugin. Possible values
+                      are ON, OFF, FORCE (don't start if the plugin fails to
+                      load).
   --net-buffer-length=# 
                       Buffer length for TCP/IP and socket communication
   --net-read-timeout=# 
@@ -1000,6 +1047,8 @@ The following options may be given as the first argument:
                       Number of seconds to wait for a block to be written to a
                       connection before aborting the write
   -n, --new           Use very new possible "unsafe" functions
+  --null-audit[=name] Enable or disable NULL_AUDIT plugin. Possible values are
+                      ON, OFF, FORCE (don't start if the plugin fails to load).
   --old               Use compatible behavior
   --old-alter-table   Use old, non-optimized alter table
   --old-passwords=#   Determine which hash algorithm to use when generating
@@ -1209,6 +1258,14 @@ The following options may be given as the first argument:
                       indexes
   --profiling-history-size=# 
                       Limit of query profiling memory
+  --qa-auth-interface[=name] 
+                      Enable or disable qa_auth_interface plugin. Possible
+                      values are ON, OFF, FORCE (don't start if the plugin
+                      fails to load).
+  --qa-auth-server[=name] 
+                      Enable or disable qa_auth_server plugin. Possible values
+                      are ON, OFF, FORCE (don't start if the plugin fails to
+                      load).
   --query-alloc-block-size=# 
                       Allocation block size for query parsing and execution
   --query-cache-limit=# 
@@ -1334,6 +1391,31 @@ The following options may be given as the first argument:
                       not sure, leave this option unset
   --report-user=name  The account user name of the slave to be reported to the
                       master during slave registration
+  --rpl-semi-sync-master[=name] 
+                      Enable or disable rpl_semi_sync_master plugin. Possible
+                      values are ON, OFF, FORCE (don't start if the plugin
+                      fails to load).
+  --rpl-semi-sync-master-enabled 
+                      Enable semi-synchronous replication master (disabled by
+                      default). 
+  --rpl-semi-sync-master-timeout[=#] 
+                      The timeout value (in ms) for semi-synchronous
+                      replication in the master
+  --rpl-semi-sync-master-trace-level[=#] 
+                      The tracing level for semi-sync replication.
+  --rpl-semi-sync-master-wait-no-slave 
+                      Wait until timeout when no semi-synchronous replication
+                      slave available (enabled by default). 
+                      (Defaults to on; use --skip-rpl-semi-sync-master-wait-no-slave to disable.)
+  --rpl-semi-sync-slave[=name] 
+                      Enable or disable rpl_semi_sync_slave plugin. Possible
+                      values are ON, OFF, FORCE (don't start if the plugin
+                      fails to load).
+  --rpl-semi-sync-slave-enabled 
+                      Enable semi-synchronous replication slave (disabled by
+                      default). 
+  --rpl-semi-sync-slave-trace-level[=#] 
+                      The tracing level for semi-sync replication.
   --rpl-stop-slave-timeout=# 
                       Timeout in seconds to wait for slave to stop before
                       returning a warning.
@@ -1357,6 +1439,22 @@ The following options may be given as the first argument:
   --show-slave-auth-info 
                       Show user and password in SHOW SLAVE HOSTS on this
                       master.
+  --simple-parser[=name] 
+                      Enable or disable simple_parser plugin. Possible values
+                      are ON, OFF, FORCE (don't start if the plugin fails to
+                      load).
+  --simple-parser-simple-sysvar-one=# 
+                      Simple fulltext parser example system variable number
+                      one. Give a number.
+  --simple-parser-simple-sysvar-two=name 
+                      Simple fulltext parser example system variable number
+                      two. Give a string.
+  --simple-parser-simple-thdvar-one=# 
+                      Simple fulltext parser example thread variable number
+                      one. Give a number.
+  --simple-parser-simple-thdvar-two=name 
+                      Simple fulltext parser example thread variable number
+                      two. Give a string.
   --simplified-binlog-gtid-recovery 
                       Alias for @@binlog_gtid_simple_recovery. Deprecated
   --skip-grant-tables Start without grant tables. This gives all users FULL
@@ -1508,6 +1606,14 @@ The following options may be given as the first argument:
                       to use a small set of names, rather than a unique name
                       for each new file.
                       (Defaults to on; use --skip-temp-pool to disable.)
+  --test-plugin-server[=name] 
+                      Enable or disable test_plugin_server plugin. Possible
+                      values are ON, OFF, FORCE (don't start if the plugin
+                      fails to load).
+  --test-udf-services[=name] 
+                      Enable or disable test_udf_services plugin. Possible
+                      values are ON, OFF, FORCE (don't start if the plugin
+                      fails to load).
   --thread-cache-size=# 
                       How many threads we should keep in a cache for reuse
   --thread-concurrency=# 
@@ -1519,6 +1625,10 @@ The following options may be given as the first argument:
                       Define threads usage for handling queries, one of
                       one-thread-per-connection, no-threads, loaded-dynamically
   --thread-stack=#    The stack size for each thread
+  --three-attempts[=name] 
+                      Enable or disable three_attempts plugin. Possible values
+                      are ON, OFF, FORCE (don't start if the plugin fails to
+                      load).
   --time-format=name  The TIME format (ignored)
   --timed-mutexes     Specify whether to time mutexes. Deprecated, has no
                       effect.
@@ -1539,6 +1649,10 @@ The following options may be given as the first argument:
   --transaction-read-only 
                       Default transaction access mode. True if transactions are
                       read-only.
+  --two-questions[=name] 
+                      Enable or disable two_questions plugin. Possible values
+                      are ON, OFF, FORCE (don't start if the plugin fails to
+                      load).
   --updatable-views-with-limit=name 
                       YES = Don't issue an error message (warning only) if a
                       VIEW without presence of a key of the underlying table is
@@ -1547,6 +1661,28 @@ The following options may be given as the first argument:
                       of the underlying table and the query uses a LIMIT clause
                       (usually get from GUI tools)
   -u, --user=name     Run mysqld daemon as user.
+  --validate-password[=name] 
+                      Enable or disable validate_password plugin. Possible
+                      values are ON, OFF, FORCE (don't start if the plugin
+                      fails to load).
+  --validate-password-dictionary-file=name 
+                      password_validate_dictionary file to be loaded and check
+                      for password
+  --validate-password-length=# 
+                      Password validate length to check for minimum
+                      password_length
+  --validate-password-mixed-case-count=# 
+                      Password validate mixed case to ensure minimum
+                      upper/lower case in password
+  --validate-password-number-count=# 
+                      password validate digit to ensure minimum numeric
+                      character in password
+  --validate-password-policy=name 
+                      password_validate_policy choosen policy to validate
+                      passwordpossible values are LOW MEDIUM (default), STRONG
+  --validate-password-special-char-count=# 
+                      password validate special to ensure minimum special
+                      character in password
   --validate-user-plugins 
                       Turns on additional validation of authentication plugins
                       assigned to user accounts. 
@@ -1562,6 +1698,7 @@ and boolean options {FALSE|TRUE}                           Value (after reading 
 abort-slave-event-count                                    0
 allow-suspicious-udfs                                      FALSE
 archive                                                    ON
+auth-socket                                                ON
 auto-increment-increment                                   1
 auto-increment-offset                                      1
 autocommit                                                 TRUE
@@ -1592,11 +1729,25 @@ character-set-filesystem                                   binary
 character-set-server                                       latin1
 character-sets-dir                                         /usr/local/mysql/share/charsets/
 chroot                                                     (No default value)
+cleartext-plugin-server                                    ON
 collation-server                                           latin1_swedish_ci
 completion-type                                            NO_CHAIN
 concurrent-insert                                          AUTO
 connect-timeout                                            10
+connection-control                                         ON
+connection-control-failed-connections-threshold            3
+connection-control-failed-login-attempts                   ON
+connection-control-max-connection-delay                    2147483647
+connection-control-min-connection-delay                    1000
 console                                                    FALSE
+daemon-example                                             ON
+daemon-memcached                                           ON
+daemon-memcached-enable-binlog                             FALSE
+daemon-memcached-engine-lib-name                           innodb_engine.so
+daemon-memcached-engine-lib-path                           (No default value)
+daemon-memcached-option                                    (No default value)
+daemon-memcached-r-batch-size                              1
+daemon-memcached-w-batch-size                              1
 datadir                                                    /usr/local/mysql/data/
 date-format                                                %Y-%m-%d
 datetime-format                                            %Y-%m-%d %H:%i:%s
@@ -1863,11 +2014,13 @@ myisam-repair-threads                                      1
 myisam-sort-buffer-size                                    8388608
 myisam-stats-method                                        nulls_unequal
 myisam-use-mmap                                            FALSE
+mysql-no-login                                             ON
 net-buffer-length                                          16384
 net-read-timeout                                           30
 net-retry-count                                            10
 net-write-timeout                                          60
 new                                                        FALSE
+null-audit                                                 ON
 old                                                        FALSE
 old-alter-table                                            FALSE
 old-passwords                                              0
@@ -1933,6 +2086,8 @@ port                                                       3306
 port-open-timeout                                          0
 preload-buffer-size                                        32768
 profiling-history-size                                     15
+qa-auth-interface                                          ON
+qa-auth-server                                             ON
 query-alloc-block-size                                     8192
 query-cache-limit                                          1048576
 query-cache-min-res-unit                                   4096
@@ -1956,6 +2111,14 @@ report-host                                                (No default value)
 report-password                                            (No default value)
 report-port                                                0
 report-user                                                (No default value)
+rpl-semi-sync-master                                       ON
+rpl-semi-sync-master-enabled                               FALSE
+rpl-semi-sync-master-timeout                               10000
+rpl-semi-sync-master-trace-level                           32
+rpl-semi-sync-master-wait-no-slave                         TRUE
+rpl-semi-sync-slave                                        ON
+rpl-semi-sync-slave-enabled                                FALSE
+rpl-semi-sync-slave-trace-level                            32
 rpl-stop-slave-timeout                                     31536000
 safe-user-create                                           FALSE
 secure-auth                                                TRUE
@@ -1964,6 +2127,11 @@ server-id                                                  0
 server-id-bits                                             32
 show-old-temporals                                         FALSE
 show-slave-auth-info                                       FALSE
+simple-parser                                              ON
+simple-parser-simple-sysvar-one                            77
+simple-parser-simple-sysvar-two                            simple sysvar two default
+simple-parser-simple-thdvar-one                            88
+simple-parser-simple-thdvar-two                            simple thdvar two default
 simplified-binlog-gtid-recovery                            FALSE
 skip-grant-tables                                          FALSE
 skip-name-resolve                                          FALSE
@@ -2014,10 +2182,13 @@ table-open-cache                                           2000
 table-open-cache-instances                                 1
 tc-heuristic-recover                                       COMMIT
 temp-pool                                                  TRUE
+test-plugin-server                                         ON
+test-udf-services                                          ON
 thread-cache-size                                          9
 thread-concurrency                                         10
 thread-handling                                            one-thread-per-connection
 thread-stack                                               262144
+three-attempts                                             ON
 time-format                                                %H:%i:%s
 timed-mutexes                                              FALSE
 tmp-table-size                                             16777216
@@ -2026,7 +2197,15 @@ transaction-alloc-block-size                               8192
 transaction-isolation                                      REPEATABLE-READ
 transaction-prealloc-size                                  4096
 transaction-read-only                                      FALSE
+two-questions                                              ON
 updatable-views-with-limit                                 YES
+validate-password                                          ON
+validate-password-dictionary-file                          (No default value)
+validate-password-length                                   8
+validate-password-mixed-case-count                         1
+validate-password-number-count                             1
+validate-password-policy                                   MEDIUM
+validate-password-special-char-count                       1
 validate-user-plugins                                      TRUE
 verbose                                                    TRUE
 wait-timeout                                               28800
