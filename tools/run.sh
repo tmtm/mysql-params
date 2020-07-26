@@ -5,7 +5,7 @@ start() {
     if [ -n "$pid" ]; then
         return
     fi
-    /usr/local/mysql/bin/mysqld --no-defaults -umysql --skip-grant-tables &
+    /usr/local/mysql/bin/mysqld --no-defaults --user mysql --skip-grant-tables &
     pid=$!
     while [ ! -e /tmp/mysql.sock ]; do
         sleep 1
@@ -16,7 +16,7 @@ start() {
         sleep 1
     done
     while :; do
-        bin/mysqld --no-defaults -umysql &
+        bin/mysqld --no-defaults --user mysql &
         pid=$!
         while kill -0 $pid && [ ! -e /tmp/mysql.sock ]; do
             sleep 1
@@ -25,6 +25,59 @@ start() {
            break
         fi
     done
+    # rewrite_example plugin よりも前に作っておく
+    bin/mysql --no-defaults -e 'CREATE USER test IDENTIFIED BY "MySQL8.0"; GRANT ALL ON *.* TO test WITH GRANT OPTION'
+    if [ -d lib/plugin ]; then
+        for mod in $(cd lib/plugin; ls *.so | grep -v _client.so); do
+            echo "[[[[ $mod ]]]]"
+            case $mod in
+                adt_null.so)
+                    name=null_audit
+                    ;;
+                ha_example.so)
+                    name=example
+                    ;;
+                ha_innodb_plugin.so)
+                    name=innodb
+                    ;;
+                ha_mock.so)
+                    name=mock
+                    ;;
+                innodb_engine.so)
+                    name=innodb
+                    ;;
+                libdaemon_example.so)
+                    name=daemon_example
+                    ;;
+                libmemcached.so)
+                    name=daemon_memcached
+                    ;;
+                mypluglib.so)
+                    name=simple_parser
+                    ;;
+                mysql_clone.so)
+                    name=clone
+                    ;;
+                semisync_master.so)
+                    name=rpl_semi_sync_master
+                    ;;
+                semisync_slave.so)
+                    name=rpl_semi_sync_slave
+                    ;;
+                version_token.so)
+                    name=version_tokens
+                    ;;
+                *)
+                    name=${mod%.so}
+                    ;;
+            esac
+            if [[ $mod =~ ^component ]]; then
+                bin/mysql --no-defaults -e "install component 'file://${mod%.so}'" || true
+            else
+                bin/mysql --no-defaults -e "install plugin $name soname '$mod'" || true
+            fi
+        done
+    fi
 }
 
 stop() {
@@ -39,13 +92,16 @@ stop() {
 }
 
 p_mysqld() {
-    /usr/local/mysql/bin/mysqld --no-defaults -u mysql --help -v > $CURDIR/mysqld/data/$ver.txt || true
+    /usr/local/mysql/bin/mysqld --no-defaults --user mysql --help -v > $CURDIR/mysqld/data/$ver.txt || true
     if [ -d /usr/local/mysql/lib/plugin ]; then
         plugin_load="$(grep -h ^plugin-load $CURDIR/mysqld/data/$ver.txt || true)"
         plugins=$(cd /usr/local/mysql/lib/plugin; ls *.so | grep -Ev '^component|client|innodb_engine|locking_service' | tr "\n" ";")
-        /usr/local/mysql/bin/mysqld --no-defaults --plugin-load="$plugins" -u mysql --help -v > $CURDIR/mysqld/data/$ver.txt || true
+        /usr/local/mysql/bin/mysqld --no-defaults --plugin-load="$plugins" --user mysql --help -v > $CURDIR/mysqld/data/$ver.txt || true
         sed -i -e "s/^plugin-load .*$/$plugin_load/" $CURDIR/mysqld/data/$ver.txt
     fi
+    start
+    echo '----- SHOW GLOBAL VARIABLES -----' >> $CURDIR/mysqld/data/$ver.txt
+    bin/mysql --no-defaults -N -e 'SHOW GLOBAL VARIABLES' | sort >> $CURDIR/mysqld/data/$ver.txt
     sed -i -e "s/$(hostname)/hostname/g" $CURDIR/mysqld/data/$ver.txt
 }
 
@@ -72,7 +128,7 @@ p_privilege() {
     start
     bin/mysql --no-defaults -e 'DESC mysql.user' > $CURDIR/privilege/data/$ver.txt
     bin/mysql --no-defaults -e 'DESC mysql.proxies_priv' >> $CURDIR/privilege/data/$ver.txt || true
-    bin/mysql --no-defaults -e 'CREATE USER test; GRANT ALL ON *.* TO test WITH GRANT OPTION; SHOW GRANTS FOR test' >> $CURDIR/privilege/data/$ver.txt
+    bin/mysql --no-defaults -e 'SHOW GRANTS FOR test' >> $CURDIR/privilege/data/$ver.txt
 }
 
 p_func() {
