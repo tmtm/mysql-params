@@ -1,6 +1,8 @@
 #!/bin/bash
 set -e
 
+unset LC_ALL LANG LANGUAGE
+
 start() {
     if [ -n "$pid" ]; then
         return
@@ -99,10 +101,13 @@ p_mysqld() {
         /usr/local/mysql/bin/mysqld --no-defaults --plugin-load="$plugins" --user mysql --help -v > $CURDIR/mysqld/data/$ver.txt || true
         sed -i -e "s/^plugin-load .*$/$plugin_load/" $CURDIR/mysqld/data/$ver.txt
     fi
-    start
-    echo '----- SHOW GLOBAL VARIABLES -----' >> $CURDIR/mysqld/data/$ver.txt
-    bin/mysql --no-defaults -N -e 'SHOW GLOBAL VARIABLES' | sort >> $CURDIR/mysqld/data/$ver.txt
     sed -i -e "s/$(hostname)/hostname/g" $CURDIR/mysqld/data/$ver.txt
+}
+
+p_variable() {
+    start
+    bin/mysql --no-defaults -N -e 'SHOW GLOBAL VARIABLES' | sort >> $CURDIR/variable/data/$ver.txt
+    sed -i -e "s/$(hostname)/hostname/g" $CURDIR/variable/data/$ver.txt
 }
 
 p_mysql() {
@@ -163,7 +168,7 @@ p_error() {
 all=1
 while [ $# -gt 0 ]; do
     case "$1" in
-        --mysqld | --mysql | --charset | --collation | --status | --privilege | --func | --ischema | --pschema | --error)
+        --mysqld | --variable | --mysql | --charset | --collation | --status | --privilege | --func | --ischema | --pschema | --error)
             eval "${1#--}=1"
             all=
             shift
@@ -175,7 +180,7 @@ while [ $# -gt 0 ]; do
 done
 
 CURDIR=$(pwd)
-mkdir -p $CURDIR/{mysqld,mysql,charset,collation,status,privilege,function,ischema,pschema,error}/data
+mkdir -p $CURDIR/{mysqld,variable,mysql,charset,collation,status,privilege,function,ischema,pschema,error}/data
 for tar in "$@"; do
     echo "[[[[ $tar ]]]]"
     m=$(tar tf $tar | head -1 | cut -d/ -f1)
@@ -192,6 +197,7 @@ for tar in "$@"; do
     fi
     chown -R mysql. .
     if [ -n "$all" -o -n "$mysqld" ];    then p_mysqld; fi
+    if [ -n "$all" -o -n "$variable" ];  then p_variable; fi
     if [ -n "$all" -o -n "$mysql" ];     then p_mysql; fi
     if [ -n "$all" -o -n "$charset" ];   then p_charset; fi
     if [ -n "$all" -o -n "$collation" ]; then p_collation; fi
