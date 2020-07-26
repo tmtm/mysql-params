@@ -5,7 +5,33 @@ require 'fileutils'
 require 'pathname'
 require 'json'
 
-['mysqld', 'mysql'].each do |name|
+['mysqld'].each do |name|
+  vers = {}
+  dir = Pathname(__dir__)+'..'+name
+  FileUtils.mkdir_p(dir + 'json')
+  (dir + 'data').each_child do |txt|
+    ver = txt.basename('.txt').to_s
+    vers[ver] = "json/#{ver}.json"
+    params = txt.read.split(/^-+ -+\n/).last.split(/^$/).first.lines.map do |line|
+      name, value = line.chomp.split(/ +/, 2)
+      [name, value]
+    end.to_h
+    keys = params.keys.map{|k| [k.gsub(/-/, '_'), true]}.to_h
+    params2 = txt.read.split(/^-+ SHOW GLOBAL VARIABLES -+\n/).last.lines.map do |line|
+      name, value = line.chomp.split(/\t/)
+      if keys.key?(name)
+        nil
+      else
+        [name, value]
+      end
+    end.compact.to_h
+    params.update(params2)
+    (dir + "json/#{ver}.json").write JSON.pretty_generate(params)
+  end
+  (dir + "json/version.json").write JSON.pretty_generate(vers.sort_by{|k, v| k.split('.').map(&:to_i)}.reverse.to_h)
+end
+
+['mysql'].each do |name|
   vers = {}
   dir = Pathname(__dir__)+'..'+name
   FileUtils.mkdir_p(dir + 'json')
