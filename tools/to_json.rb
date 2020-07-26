@@ -14,11 +14,11 @@ require 'json'
     vers[ver] = "json/#{ver}.json"
     params = txt.read.split(/^-+ -+\n/).last.split(/^$/).first.lines.map do |line|
       name, value = line.chomp.split(/ +/, 2)
-      [name.gsub(/_/, '-'), value]
+      [name, value]
     end.to_h
-    (dir + "json/#{ver}.json").write params.to_json
+    (dir + "json/#{ver}.json").write JSON.pretty_generate(params)
   end
-  (dir + "json/version.json").write vers.sort_by{|k, v| k.split('.').map(&:to_i) }.reverse.to_h.to_json
+  (dir + "json/version.json").write JSON.pretty_generate(vers.sort_by{|k, v| k.split('.').map(&:to_i)}.reverse.to_h)
 end
 
 ['charset', 'collation', 'status'].each do |name|
@@ -32,9 +32,9 @@ end
       param = line.split.first
       [param, "○"]
     end.to_h
-    (dir + "json/#{ver}.json").write params.to_json
+    (dir + "json/#{ver}.json").write JSON.pretty_generate(params)
   end
-  (dir + "json/version.json").write vers.sort_by{|k, v| k.split('.').map(&:to_i) }.reverse.to_h.to_json
+  (dir + "json/version.json").write JSON.pretty_generate(vers.sort_by{|k, v| k.split('.').map(&:to_i)}.reverse.to_h)
 end
 
 ['privilege'].each do |name|
@@ -77,9 +77,9 @@ end
       end
     end
     params.delete('ALL PRIVILEGES')
-    (dir + "json/#{ver}.json").write params.to_json
+    (dir + "json/#{ver}.json").write JSON.pretty_generate(params)
   end
-  (dir + "json/version.json").write vers.sort_by{|k, v| k.split('.').map(&:to_i) }.reverse.to_h.to_json
+  (dir + "json/version.json").write JSON.pretty_generate(vers.sort_by{|k, v| k.split('.').map(&:to_i) }.reverse.to_h)
 end
 
 ['function'].each do |name|
@@ -93,9 +93,9 @@ end
       param = line.chomp
       [param, "○"]
     end.to_h
-    (dir + "json/#{ver}.json").write params.to_json
+    (dir + "json/#{ver}.json").write JSON.pretty_generate(params)
   end
-  (dir + "json/version.json").write vers.sort_by{|k, v| k.split('.').map(&:to_i) }.reverse.to_h.to_json
+  (dir + "json/version.json").write JSON.pretty_generate(vers.sort_by{|k, v| k.split('.').map(&:to_i) }.reverse.to_h)
 end
 
 ['ischema', 'pschema'].each do |name|
@@ -109,9 +109,9 @@ end
       param = line.chomp.split.join('.')
       [param, "○"]
     end.to_h
-    (dir + "json/#{ver}.json").write params.to_json
+    (dir + "json/#{ver}.json").write JSON.pretty_generate(params)
   end
-  (dir + "json/version.json").write vers.sort_by{|k, v| k.split('.').map(&:to_i) }.reverse.to_h.to_json
+  (dir + "json/version.json").write JSON.pretty_generate(vers.sort_by{|k, v| k.split('.').map(&:to_i) }.reverse.to_h)
 end
 
 ['error'].each do |name|
@@ -126,7 +126,7 @@ end
       num, msg = line.chomp.split(/ +/, 2)
       ["%05d"%num.to_i, msg.gsub(/\\n/, "\n")]
     end.to_h
-    (dir + "json/#{ver}.json").write params.to_json
+    (dir + "json/#{ver}.json").write JSON.pretty_generate(params)
   end
-  (dir + "json/version.json").write vers.sort_by{|k, v| k.split('.').map(&:to_i) }.reverse.to_h.to_json
+  (dir + "json/version.json").write JSON.pretty_generate(vers.sort_by{|k, v| k.split('.').map(&:to_i) }.reverse.to_h)
 end

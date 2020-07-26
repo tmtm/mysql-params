@@ -37,11 +37,11 @@
   "user": "(No default value)",
   "safe-updates": "FALSE",
   "i-am-a-dummy": "FALSE",
-  "connect-timeout": "0",
-  "max-allowed-packet": "16777216",
-  "net-buffer-length": "16384",
-  "select-limit": "1000",
-  "max-join-size": "1000000",
+  "connect_timeout": "0",
+  "max_allowed_packet": "16777216",
+  "net_buffer_length": "16384",
+  "select_limit": "1000",
+  "max_join_size": "1000000",
   "secure-auth": "FALSE",
   "show-warnings": "FALSE"
 }
