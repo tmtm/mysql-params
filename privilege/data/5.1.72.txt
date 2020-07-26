@@ -39,4 +39,4 @@ max_updates	int(11) unsigned	NO		0
 max_connections	int(11) unsigned	NO		0	
 max_user_connections	int(11) unsigned	NO		0	
 Grants for test@%
-GRANT ALL PRIVILEGES ON *.* TO 'test'@'%' WITH GRANT OPTION
+GRANT ALL PRIVILEGES ON *.* TO 'test'@'%' IDENTIFIED BY PASSWORD '*6A7C9CB4AEA654747E474B8E076B6C89439D5103' WITH GRANT OPTION
