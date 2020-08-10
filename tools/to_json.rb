@@ -29,7 +29,7 @@ end
     ver = txt.basename('.txt').to_s
     vers[ver] = "json/#{ver}.json"
     params = txt.read.lines.map do |line|
-      name, value = line.chomp.split(/\t/)
+      name, value = line.chomp.split(/\t/, 2)
       [name, value]
     end.to_h
     (dir + "json/#{ver}.json").write JSON.pretty_generate(params)
