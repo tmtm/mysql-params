@@ -56,30 +56,32 @@
         <script data-ad-client="ca-pub-1645169699718177" async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
     </head>
     <body>
-        <h1><a href="../">MySQL Parameters</a></h1>
         <div id="app">
-            <ul class="menu">
-                <li><a v-bind:href="'../mysqld/'+qs">mysqld</a></li>
-                <li><a v-bind:href="'../mysql/'+qs">mysql</a></li>
-                <li><a v-bind:href="'../variable/'+qs" class="current">variable</a></li>
-                <li><a v-bind:href="'../status/'+qs">status</a></li>
-                <li><a v-bind:href="'../charset/'+qs">charset</a></li>
-                <li><a v-bind:href="'../collation/'+qs">collation</a></li>
-                <li><a v-bind:href="'../privilege/'+qs">privilege</a></li>
-                <li><a v-bind:href="'../function/'+qs">function</a></li>
-                <li><a v-bind:href="'../ischema/'+qs">information_schema</a></li>
-                <li><a v-bind:href="'../pschema/'+qs">performance_schema</a></li>
-                <li><a v-bind:href="'../error/'+qs">error</a></li>
-            </ul>
-            <p>
-                OS: Ubuntu 20.04
-            </p>
-            Version:
-            <v-select id="version" v-model="selected_vers" :options="all_vers" multiple :on-change="version_selected"></v-select>
-            <label>
-                <input type="checkbox" v-model="only_difference" v-on:change="change_diff">
-                Only difference
-            </label>
+            <div v-show="! only_table">
+                <h1><a href="../">MySQL Parameters</a></h1>
+                <ul class="menu">
+                    <li><a v-bind:href="'../mysqld/'+qs">mysqld</a></li>
+                    <li><a v-bind:href="'../mysql/'+qs">mysql</a></li>
+                    <li><a v-bind:href="'../variable/'+qs" class="current">variable</a></li>
+                    <li><a v-bind:href="'../status/'+qs">status</a></li>
+                    <li><a v-bind:href="'../charset/'+qs">charset</a></li>
+                    <li><a v-bind:href="'../collation/'+qs">collation</a></li>
+                    <li><a v-bind:href="'../privilege/'+qs">privilege</a></li>
+                    <li><a v-bind:href="'../function/'+qs">function</a></li>
+                    <li><a v-bind:href="'../ischema/'+qs">information_schema</a></li>
+                    <li><a v-bind:href="'../pschema/'+qs">performance_schema</a></li>
+                    <li><a v-bind:href="'../error/'+qs">error</a></li>
+                </ul>
+                <p>
+                    OS: Ubuntu 20.04
+                </p>
+                Version:
+                <v-select id="version" v-model="selected_vers" :options="all_vers" multiple :on-change="version_selected"></v-select>
+                <label>
+                    <input type="checkbox" v-model="only_difference" v-on:change="change_diff">
+                    Only difference
+                </label>
+            </div>
             <table>
                 <thead>
                     <tr>
@@ -117,6 +119,7 @@
                  difference: {},             // difference[name][version] = true if the parameter value is different from the previous version
                  only_difference: v.diff,    // show only difference parameters
                  qs: location.search,        // query string
+                 only_table: v.tableonly,    // show only table
              },
              methods: {
                  version_selected: function(event) {
@@ -207,12 +210,15 @@
 
          function url_vers() {
              var match = window.location.search.match(/[?&]vers=([^?&]+)/)
-             var v = {vers: [], diff: false}
+             var v = {vers: [], diff: false, tableonly: false}
              if (match) {
                  v.vers = match[1].split(',')
              }
              if (window.location.search.match(/[?&]diff=true/)) {
                  v.diff = true
+             }
+             if (window.location.search.match(/[?&]tableonly=true/)) {
+                 v.tableonly = true
              }
              return v
          }
@@ -221,6 +227,7 @@
              obj = url_vers()
              app.selected_vers = obj.vers
              app.only_difference = obj.diff
+             app.only_table = obj.tableonly
          }
         </script>
 
