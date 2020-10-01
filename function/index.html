@@ -72,9 +72,6 @@
                     <li><a v-bind:href="'../pschema/'+qs">performance_schema</a></li>
                     <li><a v-bind:href="'../error/'+qs">error</a></li>
                 </ul>
-                <p>
-                    OS: Ubuntu 19.10
-                </p>
                 Version:
                 <v-select id="version" v-model="selected_vers" :options="all_vers" multiple :on-change="version_selected"></v-select>
                 <label>

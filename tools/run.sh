@@ -138,16 +138,11 @@ p_privilege() {
 
 p_func() {
     start
-    : > $CURDIR/function/data/$ver.txt
-    _func functions
-}
-
-_func() {
-    tempfile=$(tempfile)
-    bin/mysql --no-defaults -e "help $1" | grep '^  ' > $tempfile
-    cat $tempfile | grep -iv 'functions\|operators' | sed -e 's/OPERATOR\|FUNCTION//' -e 's/^ *\| *$//' >> $CURDIR/function/data/$ver.txt || true
-    cat $tempfile | grep -i 'functions\|operators' | while read l; do _func "$l"; done
-    rm -f $tempfile
+    bin/mysql --no-defaults -N -e '
+      select t.name from mysql.help_topic t join mysql.help_category c using (help_category_id)
+        where c.name rlike "functions|operators|geometry (constructors|relations)|properties|mbr|wkt|wkb"
+          and c.name != "user-defined functions" and t.name not rlike "definition"
+        order by t.name' | sed -e 's/OPERATOR\|FUNCTION//' -e 's/^ *\| *$//' > $CURDIR/function/data/$ver.txt
 }
 
 p_ischema() {
