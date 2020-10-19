@@ -106,7 +106,7 @@ p_mysqld() {
 
 p_variable() {
     start
-    bin/mysql --no-defaults -N -e 'SHOW GLOBAL VARIABLES' | sort >> $CURDIR/variable/data/$ver.txt
+    bin/mysql --no-defaults -N -e 'SHOW GLOBAL VARIABLES' | sort > $CURDIR/variable/data/$ver.txt
     sed -i -e "s/$(hostname)/hostname/g" $CURDIR/variable/data/$ver.txt
 }
 
