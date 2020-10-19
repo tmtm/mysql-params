@@ -596,7 +596,7 @@ select_into_disk_sync	OFF
 select_into_disk_sync_delay	0
 server_id	1
 server_id_bits	32
-server_uuid	6c037990-1222-11eb-ad10-c85b7632391c
+server_uuid	d8480e00-1226-11eb-94d1-c85b7632391c
 session_track_gtids	OFF
 session_track_schema	ON
 session_track_state_change	OFF

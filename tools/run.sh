@@ -140,7 +140,7 @@ p_func() {
     start
     bin/mysql --no-defaults -N -e '
       select t.name from mysql.help_topic t join mysql.help_category c using (help_category_id)
-        where c.name rlike "functions|operators|geometry (constructors|relations)|properties|mbr|wkt|wkb"
+        where c.name rlike "functions|operators|geometry (constructors|relations)|properties|mbr|wkt|wkb|xml|gtid"
           and c.name != "user-defined functions" and t.name not rlike "definition"
         order by t.name' | sed -e 's/OPERATOR\|FUNCTION//' -e 's/^ *\| *$//' > $CURDIR/function/data/$ver.txt
 }
