@@ -459,7 +459,7 @@ secure_auth	ON
 secure_file_priv	NULL
 server_id	0
 server_id_bits	32
-server_uuid	bae9d489-1223-11eb-b466-c85b7632391c
+server_uuid	(random value)
 session_track_gtids	OFF
 session_track_schema	ON
 session_track_state_change	OFF

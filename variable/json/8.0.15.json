@@ -535,7 +535,7 @@
   "secure_file_priv": "NULL",
   "server_id": "1",
   "server_id_bits": "32",
-  "server_uuid": "a0419acd-cf60-11ea-8b02-e4a7a0fb71b5",
+  "server_uuid": "(random value)",
   "session_track_gtids": "OFF",
   "session_track_schema": "ON",
   "session_track_state_change": "OFF",

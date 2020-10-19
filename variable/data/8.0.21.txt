@@ -577,7 +577,7 @@ secondary_engine_cost_threshold	100000.000000
 secure_file_priv	NULL
 server_id	1
 server_id_bits	32
-server_uuid	651d9382-cf56-11ea-b047-e4a7a0fb71b5
+server_uuid	(random value)
 session_track_gtids	OFF
 session_track_schema	ON
 session_track_state_change	OFF

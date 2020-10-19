@@ -380,7 +380,7 @@ secure_auth	ON
 secure_file_priv	NULL
 server_id	0
 server_id_bits	32
-server_uuid	e8105459-cf5c-11ea-903f-e4a7a0fb71b5
+server_uuid	(random value)
 sha256_password_private_key_path	private_key.pem
 sha256_password_public_key_path	public_key.pem
 show_old_temporals	OFF

@@ -449,7 +449,7 @@
   "secure_file_priv": "NULL",
   "server_id": "0",
   "server_id_bits": "32",
-  "server_uuid": "5b2409e3-cf5d-11ea-b632-e4a7a0fb71b5",
+  "server_uuid": "(random value)",
   "session_track_gtids": "OFF",
   "session_track_schema": "ON",
   "session_track_state_change": "OFF",

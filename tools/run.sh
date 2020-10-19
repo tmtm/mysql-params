@@ -108,6 +108,7 @@ p_variable() {
     start
     bin/mysql --no-defaults -N -e 'SHOW GLOBAL VARIABLES' | sort > $CURDIR/variable/data/$ver.txt
     sed -i -e "s/$(hostname)/hostname/g" $CURDIR/variable/data/$ver.txt
+    sed -i -e "s/^server_uuid\t.*/server_uuid\t(random value)/" $CURDIR/variable/data/$ver.txt
 }
 
 p_mysql() {
