@@ -1,0 +1,242 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="utf-8">
+        <title>mysql / MySQL Parameters</title>
+        <script src="../js/vue.js"></script>
+        <script src="../js/vue-select.js"></script>
+        <script src="../js/axios.min.js"></script>
+        <style>
+         table {
+             border-collapse: collapse;
+             border: solid 1px #808080;
+         }
+         tr.undisplay {
+             display: none;
+         }
+         tr.display {
+             display: table-row;
+         }
+         th {
+             border: solid 1px #808080;
+         }
+         td {
+             border: solid 1px #808080;
+         }
+         .difference {
+             background-color: #ffff00;
+         }
+         .unexist {
+             background-color: #a0a0a0;
+         }
+         .parameter-name {
+             word-break: keep-all;
+         }
+         .parameter-value {
+             word-break: break-all;
+         }
+         #version {
+             display: inline-block;
+         }
+         ul.menu {
+             padding: 0;
+             font-size: 130%;
+         }
+         ul.menu li {
+             display: inline-block;
+         }
+         ul.menu a {
+             margin: 0 5px 0 5px;
+         }
+         ul.menu a.current {
+             font-weight: bold;
+             text-decoration: none;
+         }
+        </style>
+        <script data-ad-client="ca-pub-1645169699718177" async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
+    </head>
+    <body>
+        <div id="app">
+            <div v-show="! only_table">
+                <h1><a href="../">MySQL Parameters</a></h1>
+                <ul class="menu">
+                    <li><a v-bind:href="'../mysqld/'+qs">mysqld</a></li>
+                    <li><a v-bind:href="'../mysql/'+qs">mysql</a></li>
+                    <li><a v-bind:href="'../variable/'+qs">variable</a></li>
+                    <li><a v-bind:href="'../status/'+qs">status</a></li>
+                    <li><a v-bind:href="'../charset/'+qs">charset</a></li>
+                    <li><a v-bind:href="'../collation/'+qs">collation</a></li>
+                    <li><a v-bind:href="'../privilege/'+qs">privilege</a></li>
+                    <li><a v-bind:href="'../function/'+qs">function</a></li>
+                    <li><a v-bind:href="'../ischema/'+qs">information_schema</a></li>
+                    <li><a v-bind:href="'../pschema/'+qs">performance_schema</a></li>
+                    <li><a v-bind:href="'../keyword/'+qs" class="current">keyword</a></li>
+                    <li><a v-bind:href="'../error/'+qs">error</a></li>
+                </ul>
+                Version:
+                <v-select id="version" v-model="selected_vers" :options="all_vers" multiple :on-change="version_selected"></v-select>
+                <label>
+                    <input type="checkbox" v-model="only_difference" v-on:change="change_diff">
+                    Only difference
+                </label>
+            </div>
+            <table>
+                <thead>
+                    <tr>
+                        <th>
+                            Parameter
+                        </th>
+                        <th v-for="ver in selected_vers2">
+                            {{ ver }}
+                        </th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr v-for="name in all_parameters" v-bind:class="row_class(name)">
+                        <td class="parameter-name">
+                            {{ name }}
+                        </td>
+                        <td v-for="ver in selected_vers2" v-bind:class="col_class(name, ver)">
+                            {{ parameters[ver][name] }}
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+        <script>
+         var v = url_vers()
+         Vue.component('v-select', VueSelect.VueSelect);
+         var app = new Vue({
+             el: '#app',
+             data: {
+                 all_vers: [],               // all available version
+                 selected_vers: v.vers,      // selected version
+                 selected_vers2: [],         // versions for display
+                 all_parameters: [],         // all parameter name for selected version
+                 parameters: {},             // parameters[version][name] = value
+                 difference: {},             // difference[name][version] = true if the parameter value is different from the previous version
+                 only_difference: v.diff,    // show only difference parameters
+                 qs: location.search,        // query string
+                 only_table: v.tableonly,    // show only table
+             },
+             methods: {
+                 version_selected: function(event) {
+                     get_version_params(app.selected_vers).then(function(){
+                         app.selected_vers2 = app.selected_vers.concat() // dup
+                         set_url()
+                     })
+                 },
+                 change_diff: function(event) {
+                     set_url()
+                 },
+                 row_class: function(name) {
+                     var klass = {}
+                     if (app.only_difference) {
+                         var f = !!app.difference[name]
+                         klass.display = f
+                         klass.undisplay = !f
+                     } else {
+                         klass.display = true
+                         klass.undisplay = false
+                     }
+                     return klass
+                 },
+                 col_class: function(name, ver) {
+                     return {
+                         "parameter-value": true,
+                         difference: app.difference[name] && app.difference[name][ver],
+                         unexist: app.parameters[ver] && app.parameters[ver][name] == undefined,
+                     }
+                 },
+             },
+         })
+
+         axios.get('json/version.json')
+              .then(function(response){
+                  app.all_vers = Object.keys(response.data)
+              })
+
+         function get_params(ver) {
+             return axios.get(`json/${ver}.json`)
+                         .then(function(response) {
+                             app.parameters[ver] = response.data
+                         })
+         }
+
+         async function get_version_params(vers) {
+             var all_params = []
+             var difference = {}
+             for (var ver of vers) {
+                 if (!app.parameters[ver]) {
+                     await get_params(ver)
+                 }
+                 all_params = all_params.concat(Object.keys(app.parameters[ver]))
+             }
+             all_params = Array.from(new Set(all_params)).sort() // unique & sort
+             for (var i = 1; i < vers.length; i++) {
+                 var ver = vers[i]
+                 for (var name of all_params) {
+                     if (app.parameters[vers[i-1]][name] != app.parameters[ver][name]) {
+                         if (!difference[name]) {
+                             difference[name] = {}
+                         }
+                         difference[name][ver] = true
+                     }
+                 }
+             }
+             app.all_parameters = all_params
+             app.difference = difference
+         }
+
+         function set_url() {
+             var vers = app.selected_vers.join(',')
+             var diff = app.only_difference
+             var v = url_vers()
+             if (vers == v.vers.toString() && diff == v.diff) {
+                 return
+             }
+             var qs = []
+             if (vers) {
+                 qs.push('vers='+vers)
+             }
+             if (app.only_difference) {
+                 qs.push('diff=true')
+             }
+             app.qs = '?'+qs.join('&')
+             window.history.pushState('', '', '?'+qs.join('&'))
+         }
+
+         function url_vers() {
+             var match = window.location.search.match(/[?&]vers=([^?&]+)/)
+             var v = {vers: [], diff: false, tableonly: false}
+             if (match) {
+                 v.vers = match[1].split(',')
+             }
+             if (window.location.search.match(/[?&]diff=true/)) {
+                 v.diff = true
+             }
+             if (window.location.search.match(/[?&]tableonly=true/)) {
+                 v.tableonly = true
+             }
+             return v
+         }
+
+         window.onpopstate = function(event) {
+             obj = url_vers()
+             app.selected_vers = obj.vers
+             app.only_difference = obj.diff
+             app.only_table = obj.tableonly
+         }
+        </script>
+
+        <script async src="//pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
+        <!-- 横長 -->
+        <ins class="adsbygoogle"
+             style="display:inline-block;width:728px;height:90px"
+             data-ad-client="ca-pub-1645169699718177"
+             data-ad-slot="1484704558"></ins>
+        <script>
+         (adsbygoogle = window.adsbygoogle || []).push({});
+        </script>
+    </body>
+</html>

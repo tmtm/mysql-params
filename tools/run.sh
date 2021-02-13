@@ -147,11 +147,18 @@ p_func() {
 }
 
 p_ischema() {
+    start
     bin/mysql --no-defaults -N information_schema -e "SELECT TABLE_NAME,COLUMN_NAME FROM COLUMNS WHERE TABLE_SCHEMA='information_schema'" | sort > $CURDIR/ischema/data/$ver.txt
 }
 
 p_pschema() {
+    start
     bin/mysql --no-defaults -N information_schema -e "SELECT TABLE_NAME,COLUMN_NAME FROM COLUMNS WHERE TABLE_SCHEMA='performance_schema'" | sort > $CURDIR/pschema/data/$ver.txt || true
+}
+
+p_keyword() {
+    start
+    bin/mysql --no-defaults -N information_schema -e "SELECT WORD,RESERVED FROM KEYWORDS ORDER BY WORD" | sort > $CURDIR/keyword/data/$ver.txt || true
 }
 
 p_error() {
@@ -164,7 +171,7 @@ p_error() {
 all=1
 while [ $# -gt 0 ]; do
     case "$1" in
-        --mysqld | --variable | --mysql | --charset | --collation | --status | --privilege | --func | --ischema | --pschema | --error)
+        --mysqld | --variable | --mysql | --charset | --collation | --status | --privilege | --func | --ischema | --pschema | --keyword | --error)
             eval "${1#--}=1"
             all=
             shift
@@ -176,7 +183,7 @@ while [ $# -gt 0 ]; do
 done
 
 CURDIR=$(pwd)
-mkdir -p $CURDIR/{mysqld,variable,mysql,charset,collation,status,privilege,function,ischema,pschema,error}/data
+mkdir -p $CURDIR/{mysqld,variable,mysql,charset,collation,status,privilege,function,ischema,pschema,keyword,error}/data
 for tar in "$@"; do
     echo "[[[[ $tar ]]]]"
     m=$(tar tf $tar | head -1 | cut -d/ -f1)
@@ -202,6 +209,7 @@ for tar in "$@"; do
     if [ -n "$all" -o -n "$func" ];      then p_func; fi
     if [ -n "$all" -o -n "$ischema" ];   then p_ischema; fi
     if [ -n "$all" -o -n "$pschema" ];   then p_pschema; fi
+    if [ -n "$all" -o -n "$keyword" ];   then p_keyword; fi
     if [ -n "$all" -o -n "$error" ];     then p_error; fi
     stop
 done
